@@ -2,6 +2,19 @@
 
 {% block body %}
     
-    Hello!
-
-{% endblock %} 
+    {% if user.is_authenticated %}
+        {% for i in posts1 %}
+            <div class="card">
+                <h4>{{ i.owner }}</h4>
+                <div class="card-body">
+                    <p class="card-text">{{ i.desc }}</p>
+                    <br>
+                    <small>{{ i.time }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2 style="text-align: center">Welcome!</h2>
+    {% endif %}
+    
+{% endblock%}

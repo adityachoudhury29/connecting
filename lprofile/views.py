@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.urls import reverse
-from .models import User
+from .models import User, posts
 
 # Create your views here.
 
@@ -55,6 +55,23 @@ def register(request):
         return render(request, "lprofile/register.html")
     
 def index(request):
+    posts2=posts.objects.all()
     return render(request,'lprofile/index.html',{
-
+        'posts1':posts2
     })
+
+def profile1(request):
+    return render(request,'lprofile/profile1.html')
+
+def create(request):
+    if request.method=='GET':
+        return render(request,'lprofile/create.html')
+    else:
+        desc=request.POST["desc"]
+        user=request.user
+        newpost=posts(owner=user,desc=desc)
+        newpost.save()
+        posts1=posts.objects.all()
+        return render(request,'lprofile/index.html',{
+            'posts1':posts1
+        })
