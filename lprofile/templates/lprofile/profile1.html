@@ -3,7 +3,9 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-        <h2>Profile</h2>
+        <h2>Profile</h2><br>
+        <h4>{{ user.username }}</h4>
+        <h4>
     {% else %}
         <h2>Login or make an account first!</h2>
     {% endif %}

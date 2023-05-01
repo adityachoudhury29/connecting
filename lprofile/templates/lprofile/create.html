@@ -1,15 +1,18 @@
 {% extends "lprofile/layout.html" %}
 
 {% block body %}
-
-    <form action="{% url 'create' %}" method="POST">
-        {% csrf_token %}
-        <div>
-            <h3 for="desc">Create New Post</h3>
-            <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="Write here"></textarea>
-        </div>
-        <br>
-        <button class="btn btn-primary" type="submit">Post</button>
-    </form>
+    {% if user.is_authenticated %}
+        <form action="{% url 'create' %}" method="POST">
+            {% csrf_token %}
+            <div>
+                <h3 for="desc">Create New Post</h3>
+                <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="Write here"></textarea>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit">Post</button>
+        </form>
+    {% else %}
+        <h2>Login or make an account first!</h2>
+    {% endif %}
     
 {% endblock %}

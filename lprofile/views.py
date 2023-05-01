@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.urls import reverse
 from .models import User, posts
-
+from django.db.models import Sum
 # Create your views here.
 
 def login_view(request):
@@ -56,6 +56,7 @@ def register(request):
     
 def index(request):
     posts2=posts.objects.all()
+
     return render(request,'lprofile/index.html',{
         'posts1':posts2
     })
@@ -75,3 +76,17 @@ def create(request):
         return render(request,'lprofile/index.html',{
             'posts1':posts1
         })
+
+def like(request,pk):
+    post=get_object_or_404(posts,id=request.POST.get('id'))
+    if request.user in post.dislikes.all():
+        post.dislikes.remove(request.user)
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('index'))
+
+def dislike(request,pk):
+    post=get_object_or_404(posts,id=request.POST.get('id'))
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+    post.dislikes.add(request.user)
+    return HttpResponseRedirect(reverse('index'))
