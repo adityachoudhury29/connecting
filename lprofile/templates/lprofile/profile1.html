@@ -3,11 +3,15 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-        <h2>Profile</h2><br>
-        <h4>{{ user.username }}</h4>
-        <h4>
+        <h1 style="font-weight: bold">Profile</h1><hr><hr>
+        <h2 style="font-weight: bold">Name</h2>
+        <h4>{{ myprof.firstname }} {{ myprof.lastname }}</h4>
+        <hr>
+        <h2 style="font-weight: bold">About</h2>
+        <p style="font-size: 20px;">{{ myprof.about }}</p>
+        
     {% else %}
         <h2>Login or make an account first!</h2>
     {% endif %}
     
-{% endblock %} 
+{% endblock %}

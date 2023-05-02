@@ -1,0 +1,13 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    
+    {% if user.is_authenticated %}
+      
+        <h2>Profile not found!</h2>
+        
+    {% else %}
+        <h2>Login or make an account first!</h2>
+    {% endif %}
+    
+{% endblock %}

@@ -24,7 +24,7 @@
                     <a class="nav-link" href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile1' %}">Profile</a>
+                    <a class="nav-link" href="{% url 'profile1' uname=request.user %}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create' %}">New Post</a>

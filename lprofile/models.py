@@ -16,3 +16,10 @@ class posts(models.Model):
     def __str__(self):
         return self.desc
 
+class profile1(models.Model):
+    profowner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="profowner")
+    firstname=models.CharField(max_length=20,default=" ")
+    lastname=models.CharField(max_length=30,default=" ")
+    about=models.CharField(max_length=300,default=" ")
+    def __str__(self):
+        return f'{self.firstname} {self.lastname}'

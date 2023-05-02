@@ -3,8 +3,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.urls import reverse
-from .models import User, posts
-from django.db.models import Sum
+from django.core.exceptions import ObjectDoesNotExist
+from .models import User, posts, profile1
 # Create your views here.
 
 def login_view(request):
@@ -61,9 +61,6 @@ def index(request):
         'posts1':posts2
     })
 
-def profile1(request):
-    return render(request,'lprofile/profile1.html')
-
 def create(request):
     if request.method=='GET':
         return render(request,'lprofile/create.html')
@@ -90,3 +87,12 @@ def dislike(request,pk):
         post.likes.remove(request.user)
     post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse('index'))
+
+def profilefunc(request,uname):  
+    try:
+        user=User.objects.get(username=uname)
+        return render(request,'lprofile/profile1.html',{
+            'myprof':profile1.objects.get(profowner=user)
+        })
+    except ObjectDoesNotExist:
+        return render(request,'lprofile/profnotfound.html')
