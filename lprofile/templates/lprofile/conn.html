@@ -1,0 +1,16 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    
+    {% if user.is_authenticated %}
+        <h3>Total Connections: {{ conn.number_of_conns }}</h3><br>
+        {% for i in conns %}
+            <ul>
+                <li><a href="{% url 'profile1' uname=i.username %}">{{ i.username }}</a></li>
+            </ul>
+        {% endfor %}
+    {% else %}
+        <h2 style="text-align: center">Login or make and account first!</h2>
+    {% endif %}
+    
+{% endblock%}

@@ -56,7 +56,6 @@ def register(request):
     
 def index(request):
     posts2=posts.objects.all()
-
     return render(request,'lprofile/index.html',{
         'posts1':posts2
     })
@@ -96,3 +95,16 @@ def profilefunc(request,uname):
         })
     except ObjectDoesNotExist:
         return render(request,'lprofile/profnotfound.html')
+    
+def conn(request):
+    conn=profile1.objects.get(profowner=request.user)
+    conns=conn.connection.all()
+    return render(request,'lprofile/conn.html',{
+        'conns':conns,
+        'conn':conn
+    })
+
+def deletepost(request,des):
+    post=posts.objects.get(desc=des)
+    post.delete()
+    return HttpResponseRedirect(reverse('index'))

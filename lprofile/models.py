@@ -21,5 +21,9 @@ class profile1(models.Model):
     firstname=models.CharField(max_length=20,default=" ")
     lastname=models.CharField(max_length=30,default=" ")
     about=models.CharField(max_length=300,default=" ")
+    connection=models.ManyToManyField(User,related_name="connection")
+    def number_of_conns(self):
+        return self.connection.count()
     def __str__(self):
         return f'{self.firstname} {self.lastname}'
+    

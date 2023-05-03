@@ -31,6 +31,15 @@
                                 {{ i.number_of_dislikes }} Disike/s
                             </form>
                         </div>
+                        &nbsp;&nbsp;
+                        {% if user == i.owner %}
+                            <div style="display: inline-block;vertical-align: middle">
+                                <form action="{% url 'delete' i.desc %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" name='delete' class="btn btn-danger">Delete Post</button>
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
