@@ -13,7 +13,7 @@
         </h1>
         <h3>
             {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
+                Signed in as <strong>{{ user.first_name }} {{ user.last_name }}</strong>.
             {% else %}
                 Not signed in.
             {% endif %}
@@ -21,26 +21,54 @@
         <ul class="nav">
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                        <a class="nav-link" href="{% url 'index' %}">
+                        <button class="btn btn-outline-primary">
+                            Home
+                        </button>
+                        </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile1' uname=request.user %}">Profile</a>
+                    <a class="nav-link" href="{% url 'profile1' uname=request.user %}">
+                    <button class="btn btn-outline-primary">
+                        Profile
+                    </button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create' %}">New Post</a>
+                    <a class="nav-link" href="{% url 'create' %}">
+                    <button class="btn btn-outline-primary">
+                        New Post
+                    </button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'connections' %}">Connections</a>
+                    <a class="nav-link" href="{% url 'connections' %}">
+                        <button class="btn btn-outline-primary">
+                            Network
+                        </button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <button class="btn btn-outline-danger">
+                            Logout
+                        </button>
+                    </a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <button class="btn btn-outline-primary">
+                            Login
+                        </button>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    <a class="nav-link" href="{% url 'register' %}">
+                        <button class="btn btn-outline-primary">
+                            Register
+                        </button>
+                    </a>
                 </li>
             {% endif %}
         </ul>

@@ -5,7 +5,7 @@
     {% if user.is_authenticated %}
         <h1 style="font-weight: bold">Profile</h1><hr><hr>
         <h2 style="font-weight: bold">Name</h2>
-        <h4>{{ myprof.firstname }} {{ myprof.lastname }}</h4>
+        <h4>{{ myprof.profowner.first_name }} {{ myprof.profowner.last_name }}</h4>
         <hr>
         <h2 style="font-weight: bold">About</h2>
         <p style="font-size: 20px;">{{ myprof.about }}</p>

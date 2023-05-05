@@ -34,7 +34,9 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
-
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+ 
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
@@ -44,6 +46,8 @@ def register(request):
 
         try:
             user = User.objects.create_user(username, email, password)
+            user.first_name=first_name
+            user.last_name=last_name
             user.save()
         except IntegrityError:
             return render(request, "lprofile/register.html", {
@@ -77,32 +81,48 @@ def like(request,pk):
     post=get_object_or_404(posts,id=request.POST.get('id'))
     if request.user in post.dislikes.all():
         post.dislikes.remove(request.user)
-    post.likes.add(request.user)
+        post.likes.add(request.user)
+    elif request.user in post.likes.all() and request.user not in post.dislikes.all():
+        post.likes.remove(request.user)
+    elif request.user not in post.likes.all() and request.user not in post.dislikes.all():
+        post.likes.add(request.user)
     return HttpResponseRedirect(reverse('index'))
 
 def dislike(request,pk):
     post=get_object_or_404(posts,id=request.POST.get('id'))
     if request.user in post.likes.all():
         post.likes.remove(request.user)
-    post.dislikes.add(request.user)
+        post.dislikes.add(request.user)
+    elif request.user in post.dislikes.all() and request.user not in post.likes.all():
+        post.dislikes.remove(request.user)
+    elif request.user not in post.likes.all() and request.user not in post.dislikes.all():
+        post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse('index'))
 
 def profilefunc(request,uname):  
     try:
         user=User.objects.get(username=uname)
+        if profile1.objects.get(profowner=user) is None:
+            myprof=profile1(profowner=user)
+            myprof.save()
+        else:
+            myprof=profile1.objects.get(profowner=user)
         return render(request,'lprofile/profile1.html',{
-            'myprof':profile1.objects.get(profowner=user)
+            'myprof':myprof
         })
     except ObjectDoesNotExist:
         return render(request,'lprofile/profnotfound.html')
     
 def conn(request):
-    conn=profile1.objects.get(profowner=request.user)
-    conns=conn.connection.all()
-    return render(request,'lprofile/conn.html',{
-        'conns':conns,
-        'conn':conn
-    })
+    try:
+        conn=profile1.objects.get(profowner=request.user)
+        conns=conn.connection.all()
+        return render(request,'lprofile/conn.html',{
+            'conns':conns,
+            'conn':conn
+        })
+    except ObjectDoesNotExist:
+        return render(request,'lprofile/noconn.html')
 
 def deletepost(request,des):
     post=posts.objects.get(desc=des)
