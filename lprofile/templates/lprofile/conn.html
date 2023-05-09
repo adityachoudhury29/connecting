@@ -3,12 +3,20 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-        <h3>Total Connections: {{ conn.number_of_conns }}</h3><br>
+        <h3>Following: {{ conn.number_of_conns }}</h3><br>
         {% for i in conns %}
             <ul>
                 <li>
                     <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
-                    
+                </li>
+            </ul>
+        {% endfor %}
+        <br>
+        <h3>Followers: {{ conn.number_of_followers }}</h3><br>
+        {% for i in folls %}
+            <ul>
+                <li>
+                    <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
                 </li>
             </ul>
         {% endfor %}

@@ -19,9 +19,12 @@ class posts(models.Model):
 class profile1(models.Model):
     profowner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="profowner")
     about=models.CharField(max_length=300,blank=True)
-    connection=models.ManyToManyField(User,related_name="connection",blank=True)
+    follower=models.ManyToManyField(User,related_name="follower",blank=True)
+    followers=models.ManyToManyField(User,related_name="followers",blank=True)
     def number_of_conns(self):
-        return self.connection.count()
+        return self.follower.count()
+    def number_of_followers(self):
+        return self.followers.count()
     def __str__(self):
         return f'{self.profowner.first_name} {self.profowner.last_name}'
     

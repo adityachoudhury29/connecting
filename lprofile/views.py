@@ -102,29 +102,77 @@ def dislike(request,pk):
 def profilefunc(request,uname):  
     try:
         user=User.objects.get(username=uname)
-        if profile1.objects.get(profowner=user) is None:
+        try:
+            myprof=profile1.objects.get(profowner=user)
+            return render(request,'lprofile/profile1.html',{
+                'myprof':myprof
+            })
+        except ObjectDoesNotExist:
             myprof=profile1(profowner=user)
             myprof.save()
-        else:
-            myprof=profile1.objects.get(profowner=user)
-        return render(request,'lprofile/profile1.html',{
-            'myprof':myprof
-        })
+            return render(request,'lprofile/profile1.html',{
+                'myprof':myprof
+            })
     except ObjectDoesNotExist:
         return render(request,'lprofile/profnotfound.html')
     
-def conn(request):
+def foll(request,uname):
     try:
-        conn=profile1.objects.get(profowner=request.user)
-        conns=conn.connection.all()
+        user=User.objects.get(username=uname)
+        conn=profile1.objects.get(profowner=user)
+        conns=conn.follower.all()
+        folls=conn.followers.all()
         return render(request,'lprofile/conn.html',{
             'conns':conns,
-            'conn':conn
+            'conn':conn,
+            'folls':folls
         })
     except ObjectDoesNotExist:
         return render(request,'lprofile/noconn.html')
 
-def deletepost(request,des):
-    post=posts.objects.get(desc=des)
+def deletepost(request,id):
+    post=posts.objects.get(pk=id)
     post.delete()
     return HttpResponseRedirect(reverse('index'))
+
+def addc(request):
+    me=profile1.objects.get(profowner=request.user)
+    profiles=profile1.objects.all().exclude(profowner=request.user)
+    return render(request,'lprofile/addc.html',{
+        'users':profiles,
+        'me':me.follower.all()
+    })
+
+def add(request,uname):
+    user=User.objects.get(username=uname)
+    profile=profile1.objects.get(profowner=request.user)
+    if request.method=='POST':
+        if user not in profile.follower.all():
+            profile.follower.add(user)
+            profile1.objects.get(profowner=user).followers.add(request.user)
+        return HttpResponseRedirect(reverse('followings',args=[request.user]))
+
+def remove(request,uname):
+    user=User.objects.get(username=uname)
+    profile=profile1.objects.get(profowner=request.user)
+    if request.method=='POST':
+        if user in profile.follower.all():
+            profile.follower.remove(user)
+            profile1.objects.get(profowner=user).followers.remove(request.user)
+        return HttpResponseRedirect(reverse('followings',args=[request.user]))
+    
+def editprof(request):
+    myprof=profile1.objects.get(profowner=request.user)
+    if request.method=='GET':
+        return render(request,'lprofile/editprof.html',{
+            'myprof':myprof
+        })
+    else:
+        fn=request.POST["firstname"]
+        ln=request.POST["lastname"]
+        abt=request.POST["about"]
+        myprof.profowner.first_name=fn
+        myprof.profowner.last_name=ln
+        myprof.about=abt
+        myprof.save()
+        return HttpResponseRedirect(reverse('profile1',args=[request.user]))

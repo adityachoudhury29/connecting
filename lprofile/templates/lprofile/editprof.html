@@ -1,0 +1,14 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    <form action="{% url 'edit' %}" method="POST">
+        {% csrf_token %}
+        <h5>First Name:</h5>
+        <input type="text" class="form-control" name="firstname" value="{{ myprof.profowner.first_name }}"><br>
+        <h5>Last Name:</h5>
+        <input type="text" class="form-control" name="lastname" value="{{ myprof.profowner.last_name }}"><br>
+        <h5>About:</h5>
+        <input type="text" class="form-control" name="about" value="{{ myprof.about }}"><br>
+        <button type="submit" class="btn btn-outline-success">Make changes</button>
+    </form>
+{% endblock %}

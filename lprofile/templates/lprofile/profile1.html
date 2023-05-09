@@ -3,9 +3,28 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-        <h1 style="font-weight: bold">Profile</h1><hr><hr>
+        <div>
+            <h1 style="font-weight: bold">Profile</h1>
+            {% if user == myprof.profowner %}
+                <a href="{% url 'edit' %}">
+                    <button class="btn btn-outline-danger">
+                        Edit Profile
+                    </button>
+                </a>
+            {% endif %}
+        </div><hr><hr>
         <h2 style="font-weight: bold">Name</h2>
         <h4>{{ myprof.profowner.first_name }} {{ myprof.profowner.last_name }}</h4>
+        <a href="{% url 'followings' uname=myprof.profowner %}">
+            <button class="btn btn-outline-primary">
+                Following: {{ myprof.number_of_conns }}
+            </button>
+        </a>
+        <a href="{% url 'followings' uname=myprof.profowner %}">
+            <button class="btn btn-outline-primary">
+                Followers: {{ myprof.number_of_followers }}
+            </button>
+        </a>
         <hr>
         <h2 style="font-weight: bold">About</h2>
         <p style="font-size: 20px;">{{ myprof.about }}</p>

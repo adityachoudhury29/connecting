@@ -1,0 +1,23 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    <h2>Follow People:</h2>
+    {% for i in users %}
+        <ul>
+            <li>
+                <a href="{% url 'profile1' uname=i.profowner %}">{{ i.profowner.first_name }} {{ i.profowner.last_name }}</a>
+                {% if i.profowner not in me %}
+                    <form action="{% url 'follow' uname=i.profowner %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-primary">Follow</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'unfollow' uname=i.profowner %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger">Unfollow</button>
+                    </form>
+                {% endif %}
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

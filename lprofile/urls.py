@@ -10,6 +10,10 @@ urlpatterns=[
     path("create", views.create, name="create"),
     path("like/<int:pk>", views.like, name="like"),
     path("dislike/<int:pk>", views.dislike, name="dislike"),
-    path("connections", views.conn, name="connections"),
-    path("delete/<str:des>",views.deletepost, name="delete")
+    path("followings/<str:uname>", views.foll, name="followings"),
+    path("delete/<int:id>",views.deletepost, name="delete"),
+    path("addconnection",views.addc, name="addc"),
+    path("follow/<str:uname>",views.add, name="follow"),
+    path("unfollow/<str:uname>",views.remove, name="unfollow"),
+    path("edit",views.editprof, name="edit"),
 ]
