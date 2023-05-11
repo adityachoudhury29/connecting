@@ -20,6 +20,15 @@
                 </li>
             </ul>
         {% endfor %}
+        <br>
+        <h3>Connections: {{ conn.number_of_connections }}</h3>
+        {% for i in connections %}
+            <ul>
+                <li>
+                    <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
+                </li>
+            </ul>
+        {% endfor %}
     {% else %}
         <h2 style="text-align: center">Login or make and account first!</h2>
     {% endif %}

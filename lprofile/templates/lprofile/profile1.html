@@ -25,6 +25,11 @@
                 Followers: {{ myprof.number_of_followers }}
             </button>
         </a>
+        <a href="{% url 'followings' uname=myprof.profowner %}">
+            <button class="btn btn-outline-primary">
+                Connections: {{ myprof.number_of_connections }}
+            </button>
+        </a>
         <hr>
         <h2 style="font-weight: bold">About</h2>
         <p style="font-size: 20px;">{{ myprof.about }}</p>

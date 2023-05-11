@@ -122,25 +122,29 @@ def foll(request,uname):
         conn=profile1.objects.get(profowner=user)
         conns=conn.follower.all()
         folls=conn.followers.all()
+        connections=conn.connections.all()
         return render(request,'lprofile/conn.html',{
             'conns':conns,
             'conn':conn,
-            'folls':folls
+            'folls':folls,
+            'connections':connections
         })
     except ObjectDoesNotExist:
         return render(request,'lprofile/noconn.html')
 
 def deletepost(request,id):
     post=posts.objects.get(pk=id)
-    post.delete()
-    return HttpResponseRedirect(reverse('index'))
+    if post.owner==request.user:
+        post.delete()
+        return HttpResponseRedirect(reverse('index'))
 
 def addc(request):
     me=profile1.objects.get(profowner=request.user)
     profiles=profile1.objects.all().exclude(profowner=request.user)
     return render(request,'lprofile/addc.html',{
         'users':profiles,
-        'me':me.follower.all()
+        'me':me.follower.all(),
+        'mec':me.connections.all()
     })
 
 def add(request,uname):
@@ -176,3 +180,39 @@ def editprof(request):
         myprof.about=abt
         myprof.save()
         return HttpResponseRedirect(reverse('profile1',args=[request.user]))
+    
+def connect(request,uname):
+    user=User.objects.get(username=uname)
+    profile=profile1.objects.get(profowner=user)
+    if request.method=='POST':
+        if request.user not in profile.requests.all():
+            profile.requests.add(request.user)
+        return HttpResponseRedirect(reverse('addc'))
+
+def disconnect(request,uname):
+    user=User.objects.get(username=uname)
+    profile=profile1.objects.get(profowner=request.user)
+    userprof=profile1.objects.get(profowner=user)
+    if request.method=='POST':
+        if user in profile.connections.all():
+            profile.connections.remove(user)
+            userprof.connections.remove(request.user)
+        return HttpResponseRedirect(reverse('addc'))
+
+def accept(request,uname):
+    user=User.objects.get(username=uname)
+    uprof=profile1.objects.get(profowner=user)
+    profile=profile1.objects.get(profowner=request.user)
+    if request.method=='POST':
+        profile.requests.remove(user)
+        profile.connections.add(user)
+        uprof.connections.add(request.user)
+    return HttpResponseRedirect(reverse('addc'))
+
+def decline(request,uname):
+    user=User.objects.get(username=uname)
+    profile=profile1.objects.get(profowner=request.user)
+    if request.method=='POST':
+        profile.requests.remove(user)
+    return HttpResponseRedirect(reverse('addc'))
+

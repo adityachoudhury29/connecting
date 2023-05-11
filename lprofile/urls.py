@@ -16,4 +16,8 @@ urlpatterns=[
     path("follow/<str:uname>",views.add, name="follow"),
     path("unfollow/<str:uname>",views.remove, name="unfollow"),
     path("edit",views.editprof, name="edit"),
+    path("connect/<str:uname>",views.connect, name="connect"),
+    path("disconnect/<str:uname>",views.disconnect, name="disconnect"),
+    path("accept/<str:uname>",views.accept, name="accept"),
+    path("decline/<str:uname>",views.decline, name="decline"),
 ]

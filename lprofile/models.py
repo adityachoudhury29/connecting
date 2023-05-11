@@ -21,10 +21,14 @@ class profile1(models.Model):
     about=models.CharField(max_length=300,blank=True)
     follower=models.ManyToManyField(User,related_name="follower",blank=True)
     followers=models.ManyToManyField(User,related_name="followers",blank=True)
+    connections=models.ManyToManyField(User,related_name="connections",blank=True)
+    requests=models.ManyToManyField(User,related_name="requests",blank=True)
     def number_of_conns(self):
         return self.follower.count()
     def number_of_followers(self):
         return self.followers.count()
+    def number_of_connections(self):
+        return self.connections.count()
     def __str__(self):
         return f'{self.profowner.first_name} {self.profowner.last_name}'
     
