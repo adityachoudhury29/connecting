@@ -20,4 +20,5 @@ urlpatterns=[
     path("disconnect/<str:uname>",views.disconnect, name="disconnect"),
     path("accept/<str:uname>",views.accept, name="accept"),
     path("decline/<str:uname>",views.decline, name="decline"),
+    path("comments/<int:id>",views.gotocomments,name="comments"),
 ]

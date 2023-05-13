@@ -30,16 +30,14 @@
                                 </svg></button>
                                 {{ i.number_of_dislikes }} Disike/s
                             </form>
+                        </div>&nbsp;&nbsp;
+                        <div style="display: inline-block;vertical-align: middle">
+                            <a href="{% url 'comments' i.id %}">
+                                <button class="btn btn-outline-primary">
+                                    Comments
+                                </button>
+                            </a>
                         </div>
-                        &nbsp;&nbsp;
-                        {% if user == i.owner %}
-                            <div style="display: inline-block;vertical-align: middle">
-                                <form action="{% url 'delete' i.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" name='delete' class="btn btn-danger">Delete Post</button>
-                                </form>
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>

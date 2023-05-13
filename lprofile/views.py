@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, posts, profile1
+from .models import User, posts, profile1, comments
 # Create your views here.
 
 def login_view(request):
@@ -41,17 +41,29 @@ def register(request):
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(request, "lprofile/register.html", {
-                "message": "Passwords must match."
+                "message": "Passwords must match!"
             })
 
         try:
+            if username is "":
+                return render(request, "lprofile/register.html",{
+                    "message": "Username cannot be empty!"
+                })
             user = User.objects.create_user(username, email, password)
             user.first_name=first_name
             user.last_name=last_name
+            l=[user.first_name,user.last_name,user.password]
+            for i in l:
+                if i is "":
+                    return render(request, "lprofile/register.html",{
+                        "message": "All non-optional fields are compulsory!"
+                    })
+                else:
+                    continue
             user.save()
         except IntegrityError:
             return render(request, "lprofile/register.html", {
-                "message": "Username already taken."
+                "message": "Username already taken!"
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
@@ -70,6 +82,10 @@ def create(request):
     else:
         desc=request.POST["desc"]
         user=request.user
+        if desc is "":
+            return render(request,'lprofile/create.html',{
+                'message':'Post cannot be empty!'
+            })
         newpost=posts(owner=user,desc=desc)
         newpost.save()
         posts1=posts.objects.all()
@@ -99,13 +115,14 @@ def dislike(request,pk):
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse('index'))
 
-def profilefunc(request,uname):  
+def profilefunc(request,uname):
     try:
         user=User.objects.get(username=uname)
         try:
             myprof=profile1.objects.get(profowner=user)
             return render(request,'lprofile/profile1.html',{
-                'myprof':myprof
+                'myprof':myprof,
+                'mypost':posts.objects.filter(owner=user)
             })
         except ObjectDoesNotExist:
             myprof=profile1(profowner=user)
@@ -136,7 +153,7 @@ def deletepost(request,id):
     post=posts.objects.get(pk=id)
     if post.owner==request.user:
         post.delete()
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('profile1',args=[request.user]))
 
 def addc(request):
     me=profile1.objects.get(profowner=request.user)
@@ -144,7 +161,8 @@ def addc(request):
     return render(request,'lprofile/addc.html',{
         'users':profiles,
         'me':me.follower.all(),
-        'mec':me.connections.all()
+        'mec':me.connections.all(),
+        'mer':me.requests.all()
     })
 
 def add(request,uname):
@@ -216,3 +234,21 @@ def decline(request,uname):
         profile.requests.remove(user)
     return HttpResponseRedirect(reverse('addc'))
 
+def gotocomments(request,id):
+    post=posts.objects.get(pk=id)
+    if request.method=='GET':
+        comms=comments.objects.filter(c_post=post)
+        return render(request,'lprofile/comments.html',{
+            'post':post,
+            'comms':comms
+        })
+    else:
+        c_owner=request.user
+        message=request.POST["message"]
+        comm=comments(comment_owner=c_owner,message=message,c_post=post)
+        comm.save()
+        comms=comments.objects.filter(c_post=post)
+        return render(request,'lprofile/comments.html',{
+            'post':post,
+            'comms':comms
+        })

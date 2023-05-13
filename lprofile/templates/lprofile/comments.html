@@ -1,0 +1,25 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <form action="{% url 'comments' post.id %}" method="POST">
+            {% csrf_token %}
+            <h3>Make a Comment:</h3>
+            <input type="text" class="form-control" name="message"><br>
+            <button type="submit" class="btn btn-outline-success">Comment</button>
+        </form>
+        <hr>
+        <h3>Comments:</h3>
+        {% for i in comms %}
+            <div class="card">
+                <a href="{% url 'profile1' uname=i.comment_owner %}" style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.comment_owner.first_name }} {{ i.comment_owner.last_name }}</a>
+                <hr>
+                <div class="card-body">
+                    <p class="card-text">{{ i.message }}</p><br>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+    <h2 style="text-align: center">Login/Signup first!</h2>
+    {% endif %}
+{% endblock %}

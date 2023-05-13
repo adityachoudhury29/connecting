@@ -16,6 +16,8 @@
                             {% csrf_token %}
                             <button class="btn btn-outline-primary">Connect</button>
                         </form>
+                    {% elif request.user in mer %}
+                        Connection Requested
                     {% else %}
                         <form action="{% url 'disconnect' uname=i.profowner %}" method="POST">
                             {% csrf_token %}
@@ -32,6 +34,8 @@
                             {% csrf_token %}
                             <button class="btn btn-outline-primary">Connect</button>
                         </form>
+                    {% elif request.user in mer %}
+                        Connection Requested
                     {% else %}
                         <form action="{% url 'disconnect' uname=i.profowner %}" method="POST">
                             {% csrf_token %}
