@@ -13,9 +13,13 @@
                 </a>
             {% endif %}
         </div><hr><hr>
-        <h2 style="font-weight: bold">Name</h2>
         <img src="{{ myprof.profimg }}" alt="profile picture">
-        <h4>{{ myprof.profowner.first_name }} {{ myprof.profowner.last_name }}</h4>
+        <h2 style="font-weight: bold">Name</h2>
+        <h3>{{ myprof.profowner.first_name }} {{ myprof.profowner.last_name }}</h3>
+        {% if myprof.role != 'Neither' %}
+        <h6>Role:{{ myprof.role }}</h6>
+        {% endif %}
+        <br>
         <a href="{% url 'followings' uname=myprof.profowner %}">
             <button class="btn btn-outline-primary">
                 Following: {{ myprof.number_of_conns }}

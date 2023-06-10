@@ -6,43 +6,57 @@
         <ul>
             <li>
                 <a href="{% url 'profile1' uname=i.profowner %}" style="font-size: 25px;color: purple;">{{ i.profowner.first_name }} {{ i.profowner.last_name }}</a>
-                {% if i.profowner not in me %}
-                    <form action="{% url 'follow' uname=i.profowner %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-outline-primary">Follow</button>
-                    </form><br>
-                    {% if i.profowner not in mec %}
-                        <form action="{% url 'connect' uname=i.profowner %}" method="POST">
+                <ul class="nav">
+                    {% if i.profowner not in me %}
+                        <li class="nav-item">
+                        <form action="{% url 'follow' uname=i.profowner %}" method="POST">
                             {% csrf_token %}
-                            <button class="btn btn-outline-primary">Connect</button>
+                            <button class="btn btn-outline-primary">Follow</button>
                         </form>
-                    {% elif request.user in mer %}
-                        Connection Requested
+                        </li>&nbsp;&nbsp;&nbsp;
+                        {% if i.profowner not in mec %}
+                            <li class="nav-item">
+                            <form action="{% url 'connect' uname=i.profowner %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-primary">Connect</button>
+                            </form>
+                            </li>
+                        {% elif request.user in mer %}
+                            Connection Requested
+                        {% else %}
+                            <li class="nav-item">
+                            <form action="{% url 'disconnect' uname=i.profowner %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger">Remove Connection</button>
+                            </form>
+                            </li>
+                        {% endif %}
                     {% else %}
-                        <form action="{% url 'disconnect' uname=i.profowner %}" method="POST">
+                        <li class="nav-item">
+                        <form action="{% url 'unfollow' uname=i.profowner %}" method="POST">
                             {% csrf_token %}
-                            <button class="btn btn-outline-danger">Remove Connection</button>
+                            <button class="btn btn-outline-danger">Unfollow</button>
                         </form>
+                        </li>&nbsp;&nbsp;&nbsp;
+                        {% if i.profowner not in mec %}
+                            <li class="nav-item">
+                            <form action="{% url 'connect' uname=i.profowner %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-primary">Connect</button>
+                            </form>
+                            </li>
+                        {% elif request.user in mer %}
+                            Connection Requested
+                        {% else %}
+                            <li class="nav-item">
+                            <form action="{% url 'disconnect' uname=i.profowner %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger">Remove Connection</button>
+                            </form>
+                            </li>
+                        {% endif %}
                     {% endif %}
-                {% else %}
-                    <form action="{% url 'unfollow' uname=i.profowner %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-outline-danger">Unfollow</button>
-                    </form><br>
-                    {% if i.profowner not in mec %}
-                        <form action="{% url 'connect' uname=i.profowner %}" method="POST">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-primary">Connect</button>
-                        </form>
-                    {% elif request.user in mer %}
-                        Connection Requested
-                    {% else %}
-                        <form action="{% url 'disconnect' uname=i.profowner %}" method="POST">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-danger">Remove Connection</button>
-                        </form>
-                    {% endif %}
-                {% endif %}
+                </ul>
             </li>
         </ul>
     {% endfor %}
@@ -53,14 +67,20 @@
             {% if i.profowner in mer %}
                 <li>
                     <a href="{% url 'profile1' uname=i.profowner %}" style="font-size: 25px;color: purple;">{{ i.profowner.first_name }} {{ i.profowner.last_name }}</a>
-                    <form action="{% url 'accept' uname=i.profowner %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-outline-success">Accept</button>
-                    </form><br>
-                    <form action="{% url 'decline' uname=i.profowner %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-outline-danger">Decline</button>
-                    </form>
+                    <ul class="nav">
+                        <li class="nav-item">
+                        <form action="{% url 'accept' uname=i.profowner %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-success">Accept</button>
+                        </form>
+                        </li>&nbsp;&nbsp;&nbsp;
+                        <li class="nav-item">
+                        <form action="{% url 'decline' uname=i.profowner %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-danger">Decline</button>
+                        </form>
+                        </li>
+                    </ul>
                 </li>
             {% endif %}
         </ul>

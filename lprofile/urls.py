@@ -21,4 +21,7 @@ urlpatterns=[
     path("accept/<str:uname>",views.accept, name="accept"),
     path("decline/<str:uname>",views.decline, name="decline"),
     path("comments/<int:id>",views.gotocomments,name="comments"),
+    path("job",views.job,name="job"),
+    path("jobpost",views.jobpost,name="jobpost"),
+    path("apply/<int:id>",views.apply,name="apply")
 ]

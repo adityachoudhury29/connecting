@@ -4,12 +4,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
-from .models import User, posts, profile1, comments
+from .models import User, posts, profile1, comments, jobs
 # Create your views here.
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
     if request.method == "POST":
-
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
@@ -31,6 +32,8 @@ def logout_view(request):
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -192,9 +195,11 @@ def editprof(request):
     else:
         fn=request.POST["firstname"]
         ln=request.POST["lastname"]
+        role=request.POST["role"]
         abt=request.POST["about"]
         myprof.profowner.first_name=fn
         myprof.profowner.last_name=ln
+        myprof.role=role
         myprof.about=abt
         myprof.save()
         return HttpResponseRedirect(reverse('profile1',args=[request.user]))
@@ -252,3 +257,26 @@ def gotocomments(request,id):
             'post':post,
             'comms':comms
         })
+
+def job(request):
+    joblistings=jobs.objects.all()
+    return render(request,'lprofile/jobs.html',{
+        'joblistings':joblistings,
+    })
+
+def jobpost(request):
+    if request.method=='GET':
+        return render(request,'lprofile/jobpost.html')
+    elif request.method=='POST':
+        title=request.POST["j_title"]
+        company=request.POST["company"]
+        desc=request.POST["j_desc"]
+        job=jobs(j_provider=request.user,j_title=title,company=company,j_desc=desc)
+        job.save()
+        return HttpResponseRedirect(reverse('job'))
+
+def apply(request,id):
+    job=jobs.objects.get(pk=id)
+    if request.method=='POST':
+        job.applicants.add(request.user)
+        return render(request,'lprofile/jobs.html')

@@ -19,6 +19,7 @@ class posts(models.Model):
 
 class profile1(models.Model):
     profowner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="profowner")
+    role=models.CharField(max_length=10,default='Neither')
     profimg=models.ImageField(null=True,blank=True,upload_to="media/profimages")
     about=models.CharField(max_length=300,blank=True)
     follower=models.ManyToManyField(User,related_name="follower",blank=True)
@@ -37,6 +38,16 @@ class profile1(models.Model):
 class comments(models.Model):
     comment_owner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,related_name='c_owner')
     c_post=models.ForeignKey(posts,on_delete=models.CASCADE,blank=True,null=True,related_name='c_post')
+    replies=models.CharField(max_length=300,blank=True)
     message=models.CharField(max_length=300)
     def __str__(self):
         return f'{self.comment_owner}:{self.c_post}'
+    
+class jobs(models.Model):
+    j_provider=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,related_name='j_provider')
+    j_title=models.CharField(max_length=50)
+    j_desc=models.CharField(max_length=500)
+    company=models.CharField(max_length=50)
+    applicants=models.ManyToManyField(User,related_name="seekers",blank=True)
+    def __str__(self):
+        return f'{self.company}:{self.j_title}'

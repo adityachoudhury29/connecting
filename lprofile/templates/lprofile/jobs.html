@@ -1,0 +1,50 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    
+    {% if user.is_authenticated %}
+
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'jobpost' %}">
+                    <button class="btn btn-outline-primary">
+                        Post a Job
+                    </button>
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <h2>Jobs:</h2>
+        {% for i in joblistings %}
+            <div class="card">
+                <h4 style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.j_title }}:{{ i.company }}</h4>
+                <div class="card-body">
+                    <h6><strong>Job description:</strong></h6>
+                    <p class="card-text">{{ i.j_desc }}</p>
+                    <br>
+                    <div style="text-align: center">
+                        <div style="display: inline-block;vertical-align: middle">
+                            <form action="{% url 'apply' i.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" name="apply" class="btn btn-success">Apply</button>
+                            </form>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <div style="display: inline-block;vertical-align: middle">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" name="show" class="btn btn-secondary">Show Applicants</button>
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <br>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <h2 style="text-align: center">login first!</h2>
+    {% endif %}
+    
+{% endblock%}
