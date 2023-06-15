@@ -21,17 +21,20 @@
                 <div class="card-body">
                     <h6><strong>Job description:</strong></h6>
                     <p class="card-text">{{ i.j_desc }}</p>
+                    <h6>Job Hirer: <a href="{% url 'profile1' uname=i.j_provider %}">{{ i.j_provider.first_name }} {{ i.j_provider.last_name }}</a></h6>
                     <br>
                     <div style="text-align: center">
+                        {% if request.user != i.j_provider %}
                         <div style="display: inline-block;vertical-align: middle">
                             <form action="{% url 'apply' i.id %}" method="POST">
                                 {% csrf_token %}
                                 <button type="submit" name="apply" class="btn btn-success">Apply</button>
                             </form>
                         </div>
+                        {% endif %}
                         &nbsp;&nbsp;&nbsp;
                         <div style="display: inline-block;vertical-align: middle">
-                            <form action="" method="POST">
+                            <form action="{% url 'applicants' i.id %}" method="POST">
                                 {% csrf_token %}
                                 <button type="submit" name="show" class="btn btn-secondary">Show Applicants</button>
                             </form>

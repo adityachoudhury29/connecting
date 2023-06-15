@@ -9,6 +9,9 @@
                 <small style="padding-left: 15px">{{ i.time }}</small><hr>
                 <div class="card-body">
                     <p class="card-text">{{ i.desc }}</p>
+                    {% if i.postimg %}
+                    <img src="{{ i.postimg.url }}" style="height: 300px; width: 800px;" alt="post_picture">
+                    {% endif %}
                     <br>
                     <hr>
                     <div style="text-align: center">

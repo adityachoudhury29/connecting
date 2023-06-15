@@ -84,12 +84,16 @@ def create(request):
         return render(request,'lprofile/create.html')
     else:
         desc=request.POST["desc"]
+        img=request.FILES.get("postpic",False)
         user=request.user
         if desc is "":
             return render(request,'lprofile/create.html',{
                 'message':'Post cannot be empty!'
             })
-        newpost=posts(owner=user,desc=desc)
+        if img != False:
+            newpost=posts(owner=user,desc=desc,postimg=img)
+        else:
+            newpost=posts(owner=user,desc=desc)
         newpost.save()
         posts1=posts.objects.all()
         return render(request,'lprofile/index.html',{
@@ -197,6 +201,11 @@ def editprof(request):
         ln=request.POST["lastname"]
         role=request.POST["role"]
         abt=request.POST["about"]
+        pic=(request.FILES['pic'] if 'pic' in request.FILES else False)
+        if pic==False:
+            myprof.profimg=''
+        else:
+            myprof.profimg=pic
         myprof.profowner.first_name=fn
         myprof.profowner.last_name=ln
         myprof.role=role
@@ -279,4 +288,12 @@ def apply(request,id):
     job=jobs.objects.get(pk=id)
     if request.method=='POST':
         job.applicants.add(request.user)
-        return render(request,'lprofile/jobs.html')
+        return HttpResponseRedirect(reverse('job'))
+
+def applicants(request,id):
+    job=jobs.objects.get(pk=id)
+    applics=job.applicants.all()
+    if request.method=='POST':
+        return render(request,'lprofile/applicants.html',{
+            'applics':applics
+        })

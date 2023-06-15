@@ -1,0 +1,15 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        {% for i in applics %}
+            <ul>
+                <li>
+                    <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
+                </li>
+            </ul>
+        {% endfor %}
+    {% else %}
+    <h2 style="text-align: center">Login/Signup first!</h2>
+    {% endif %}
+{% endblock %}

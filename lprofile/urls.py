@@ -23,5 +23,6 @@ urlpatterns=[
     path("comments/<int:id>",views.gotocomments,name="comments"),
     path("job",views.job,name="job"),
     path("jobpost",views.jobpost,name="jobpost"),
-    path("apply/<int:id>",views.apply,name="apply")
+    path("apply/<int:id>",views.apply,name="apply"),
+    path("applicants/<int:id>",views.applicants,name="applicants"),
 ]

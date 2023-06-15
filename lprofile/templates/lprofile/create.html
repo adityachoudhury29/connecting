@@ -5,11 +5,14 @@
         {% if message %}
             <div>{{ message }}</div>
         {% endif %}
-        <form action="{% url 'create' %}" method="POST">
+        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
                 <h3 for="desc">Create New Post</h3>
                 <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="Write here"></textarea>
+            </div>
+            <div>
+                <input type="file" class="form-control" name="postpic">
             </div>
             <br>
             <button class="btn btn-primary" type="submit">Post</button>

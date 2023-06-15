@@ -2,8 +2,10 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        <form action="{% url 'edit' %}" method="POST">
+        <form action="{% url 'edit' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <h5>Profile picture:</h5>
+            <input type="file" class="form-control" name="pic">
             <h5>First Name:</h5>
             <input type="text" class="form-control" name="firstname" value="{{ myprof.profowner.first_name }}"><br>
             <h5>Last Name:</h5>
@@ -12,9 +14,19 @@
             <input type="text" class="form-control" name="about" value="{{ myprof.about }}"><br>
             <h5>Role(Hirer/Seeker/Neither):</h5>
             <select id="role" name="role">
-                <option>Neither</option>
+                {% if myprof.role == 'Neither' %}
+                <option selected>Neither</option>
                 <option>Hirer</option>
                 <option>Seeker</option>
+                {% elif myprof.role == 'Hirer' %}
+                <option>Neither</option>
+                <option selected>Hirer</option>
+                <option>Seeker</option>
+                {% elif myprof.role == 'Seeker' %}
+                <option>Neither</option>
+                <option>Hirer</option>
+                <option selected>Seeker</option>
+                {% endif %}
             </select><br>
             <br>
             <button type="submit" class="btn btn-outline-success">Make changes</button>

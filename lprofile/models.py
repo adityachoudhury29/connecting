@@ -14,6 +14,8 @@ class posts(models.Model):
         return self.likes.count()
     def number_of_dislikes(self):
         return self.dislikes.count()
+    def profile(self):
+        return profile1.objects.get(profowner=self.owner)
     def __str__(self):
         return self.desc
 
