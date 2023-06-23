@@ -13,6 +13,7 @@
         {% for i in comms %}
             <div class="card">
                 <a href="{% url 'profile1' uname=i.comment_owner %}" style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.comment_owner.first_name }} {{ i.comment_owner.last_name }}</a>
+                <small style="padding-left: 15px;">{{ i.time }}</small>
                 <hr>
                 <div class="card-body">
                     <p class="card-text">{{ i.message }}</p><br>

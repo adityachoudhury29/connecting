@@ -19,7 +19,7 @@
             <img src="{{ myprof.profimg.url }}" style="height: 80px; width: 80px;" alt="profile picture">
         </div>&nbsp;
         {% endif %}
-        <div style="float: left; padding-left: 20px;">
+        <div style="float: left; padding-left: 10px;">
         <h2 style="font-weight: bold">Name</h2>
         <h3>{{ myprof.profowner.first_name }} {{ myprof.profowner.last_name }}</h3>
         {% if myprof.role != 'Neither' %}
@@ -49,7 +49,7 @@
         <hr>
         <h2 style="font-weight: bold">Posts</h2>
         {% for i in mypost %}
-            <div class="card">
+            <div class="card" style=" border: 1px solid #000; width: 842px;">
                 <a href="{% url 'profile1' uname=i.owner %}" style="padding-left: 15px;padding-top: 20px;font-size: 25px;">{{ i.owner.first_name }} {{ i.owner.last_name }}</a>
                 <small style="padding-left: 15px">{{ i.time }}</small><hr>
                 <div class="card-body">
@@ -81,8 +81,8 @@
                         </div>&nbsp;&nbsp;
                         <div style="display: inline-block;vertical-align: middle">
                             <a href="{% url 'comments' i.id %}">
-                                <button class="btn btn-outline-primary">
-                                    Comments
+                                <button class="btn btn-info">
+                                    Read Comments
                                 </button>
                             </a>
                         </div>
@@ -98,6 +98,7 @@
                     </div>
                 </div>
             </div>
+        <br>
         {% endfor %}
         
     {% else %}

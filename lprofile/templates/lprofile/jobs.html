@@ -16,7 +16,7 @@
         <hr>
         <h2>Jobs:</h2>
         {% for i in joblistings %}
-            <div class="card">
+            <div class="card" style=" border: 1px solid #000;">
                 <h4 style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.j_title }}:{{ i.company }}</h4>
                 <div class="card-body">
                     <h6><strong>Job description:</strong></h6>
@@ -25,12 +25,16 @@
                     <br>
                     <div style="text-align: center">
                         {% if request.user != i.j_provider %}
+                        {% if request.user not in i.applicants.all %}
                         <div style="display: inline-block;vertical-align: middle">
                             <form action="{% url 'apply' i.id %}" method="POST">
                                 {% csrf_token %}
                                 <button type="submit" name="apply" class="btn btn-success">Apply</button>
                             </form>
                         </div>
+                        {% else %}
+                        Applied
+                        {% endif %}
                         {% endif %}
                         &nbsp;&nbsp;&nbsp;
                         <div style="display: inline-block;vertical-align: middle">
@@ -42,8 +46,8 @@
                         <br>
                     </div>
                 </div>
-                <br>
             </div>
+            <br>
         {% endfor %}
 
     {% else %}

@@ -79,6 +79,9 @@ def index(request):
         'posts1':posts2
     })
 
+def commentgetter(post):
+    return comments.objects.get(c_post=post)
+
 def create(request):
     if request.method=='GET':
         return render(request,'lprofile/create.html')
@@ -167,9 +170,9 @@ def addc(request):
     profiles=profile1.objects.all().exclude(profowner=request.user)
     return render(request,'lprofile/addc.html',{
         'users':profiles,
-        'me':me.follower.all(),
+        'me':me,
+        'mef':me.follower.all(),
         'mec':me.connections.all(),
-        'mer':me.requests.all()
     })
 
 def add(request,uname):
@@ -202,17 +205,19 @@ def editprof(request):
         role=request.POST["role"]
         abt=request.POST["about"]
         pic=(request.FILES['pic'] if 'pic' in request.FILES else False)
-        if pic==False:
-            myprof.profimg=''
+        remove_picture = request.POST.get('remove_picture')
+        if remove_picture:
+            myprof.profimg=None
         else:
-            myprof.profimg=pic
+            if pic:
+                myprof.profimg=pic
         myprof.profowner.first_name=fn
         myprof.profowner.last_name=ln
         myprof.role=role
         myprof.about=abt
         myprof.save()
         return HttpResponseRedirect(reverse('profile1',args=[request.user]))
-    
+
 def connect(request,uname):
     user=User.objects.get(username=uname)
     profile=profile1.objects.get(profowner=user)

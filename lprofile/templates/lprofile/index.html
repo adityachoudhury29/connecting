@@ -4,7 +4,8 @@
     
     {% if user.is_authenticated %}
         {% for i in posts1 %}
-            <div class="card">
+        <div class="row justify-content-center">
+            <div class="card" style=" border: 1px solid #000; width: 842px;">
                 <a href="{% url 'profile1' uname=i.owner %}" style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.owner.first_name }} {{ i.owner.last_name }}</a>
                 <small style="padding-left: 15px">{{ i.time }}</small><hr>
                 <div class="card-body">
@@ -34,19 +35,38 @@
                                 {{ i.number_of_dislikes }} Disike/s
                             </form>
                         </div>&nbsp;&nbsp;
-                        <div style="display: inline-block;vertical-align: middle">
-                            <a href="{% url 'comments' i.id %}">
-                                <button class="btn btn-outline-primary">
-                                    Comments
-                                </button>
-                            </a>
+                    </div>
+                    <hr>
+                    <div>
+                    <form action="{% url 'comments' i.id %}" method="POST">
+                        {% csrf_token %}
+                        <h3>Make a Comment:</h3>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="message" placeholder="Comment..." aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="submit">Comment</button>
+                            </div>
                         </div>
+                    </form>
+                    <div>
+                        <a href="{% url 'comments' i.id %}">
+                            <button class="btn btn-info">
+                                Read Comments
+                            </button>
+                        </a>
+                    </div>
                     </div>
                 </div>
-            </div><br>
+            </div>
+        </div>
+        <br>
         {% endfor %}
     {% else %}
         <h2 style="text-align: center">Welcome!</h2>
     {% endif %}
     
 {% endblock%}
+
+{% block script %}
+    <script src="lprofile/animation.js"></script>
+{% endblock %}

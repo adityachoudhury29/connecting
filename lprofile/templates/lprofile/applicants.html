@@ -2,6 +2,7 @@
 
 {% block body %}
     {% if user.is_authenticated %}
+    <h2>Applicants for this job:</h2>
         {% for i in applics %}
             <ul>
                 <li>

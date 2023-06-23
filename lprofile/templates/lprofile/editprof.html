@@ -6,6 +6,9 @@
             {% csrf_token %}
             <h5>Profile picture:</h5>
             <input type="file" class="form-control" name="pic">
+            <label>
+                <input type="checkbox" name="remove_picture"> Remove Picture
+            </label>
             <h5>First Name:</h5>
             <input type="text" class="form-control" name="firstname" value="{{ myprof.profowner.first_name }}"><br>
             <h5>Last Name:</h5>

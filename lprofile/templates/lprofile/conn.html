@@ -3,7 +3,7 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-        <h3>Following: {{ conn.number_of_conns }}</h3><br>
+        <h3>Following: {{ conn.number_of_conns }}</h3>
         {% for i in conns %}
             <ul>
                 <li>
@@ -12,7 +12,7 @@
             </ul>
         {% endfor %}
         <br>
-        <h3>Followers: {{ conn.number_of_followers }}</h3><br>
+        <h3>Followers: {{ conn.number_of_followers }}</h3>
         {% for i in folls %}
             <ul>
                 <li>

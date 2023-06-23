@@ -40,7 +40,7 @@ class profile1(models.Model):
 class comments(models.Model):
     comment_owner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,related_name='c_owner')
     c_post=models.ForeignKey(posts,on_delete=models.CASCADE,blank=True,null=True,related_name='c_post')
-    replies=models.CharField(max_length=300,blank=True)
+    time=models.DateTimeField(auto_now_add=True)
     message=models.CharField(max_length=300)
     def __str__(self):
         return f'{self.comment_owner}:{self.c_post}'
