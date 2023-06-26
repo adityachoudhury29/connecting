@@ -32,7 +32,9 @@ ALLOWED_HOSTS = ["192.168.203.73","localhost","127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'lprofile',
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
 
 MIDDLEWARE = [
     'linkedin.middleware.disablebrowserbackbuttonmiddleware',
@@ -70,7 +73,17 @@ TEMPLATES = [
     },
 ]
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
 WSGI_APPLICATION = 'linkedin.wsgi.application'
+ASGI_APPLICATION = 'linkedin.asgi.application'
 
 
 # Database

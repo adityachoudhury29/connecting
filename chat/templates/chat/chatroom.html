@@ -1,0 +1,29 @@
+{% extends 'lprofile/layout.html' %}
+
+{% if user.is_authenticated %}
+
+{% block body %}
+    <div hidden id="hidden">{{ request.user.username }}</div>
+    {% for chatter in chatters %}
+    <button style="width:1740px; text-align: left;height: 100px;" id="{{ chatter.username }}" class="btn btn-outline-primary">{{ chatter.first_name }} {{ chatter.last_name }}</button>
+    {% endfor %}
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.addEventListener('click',(button) =>{
+            let roomName = button.target.id + '_chatroomfor_' + document.querySelector('#hidden').innerHTML;
+            if (button.target.id>document.querySelector('#hidden').innerHTML){
+                roomName = button.target.id + '_chatroomfor_' + document.querySelector('#hidden').innerHTML;
+            }
+            else{
+                roomName = document.querySelector('#hidden').innerHTML+'_chatroomfor_'+button.target.id;
+            }
+            if (! button.target.id==''){
+                window.location.pathname = '/chat/' + roomName + '/';
+            }
+        });
+    </script>
+{% endblock %}
+
+{% endif %}

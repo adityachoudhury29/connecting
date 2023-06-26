@@ -25,4 +25,5 @@ urlpatterns=[
     path("jobpost",views.jobpost,name="jobpost"),
     path("apply/<int:id>",views.apply,name="apply"),
     path("applicants/<int:id>",views.applicants,name="applicants"),
+    path("chat",views.chatapp,name="chat"),
 ]

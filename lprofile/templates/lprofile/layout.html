@@ -63,6 +63,13 @@
                         </button>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'chat' %}">
+                        <button class="btn btn-outline-primary">
+                            Chat
+                        </button>
+                        </a>
+                </li>
                 <li class="nav-item" style="position: absolute; right: 0; padding-right: 15px;">
                     <a class="nav-link" href="{% url 'logout' %}">
                         <button class="btn btn-outline-danger">
@@ -89,6 +96,8 @@
         </ul>
         <hr>
         {% block body %}
+        {% endblock %}
+        {% block script %}
         {% endblock %}
     </body>
 </html>

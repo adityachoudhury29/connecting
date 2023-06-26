@@ -1,6 +1,13 @@
 .card{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(240, 240, 240);
 }
+
 body{
+    padding: 10px;
+}
+
+.chat-message-div{
+    margin: auto;
+    width: 50%;
     padding: 10px;
 }

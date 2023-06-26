@@ -302,3 +302,8 @@ def applicants(request,id):
         return render(request,'lprofile/applicants.html',{
             'applics':applics
         })
+    
+def chatapp(request):
+    return render(request, 'chat/chatroom.html',{
+        'chatters':User.objects.all().exclude(username=request.user.username)
+    })
