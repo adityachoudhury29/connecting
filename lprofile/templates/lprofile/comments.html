@@ -5,7 +5,7 @@
         <form action="{% url 'comments' post.id %}" method="POST">
             {% csrf_token %}
             <h3>Make a Comment:</h3>
-            <input type="text" class="form-control" name="message"><br>
+            <input placeholder="Comment..." style="background-color: rgb(25, 25, 25);color: white;" type="text" class="form-control" name="message"><br>
             <button type="submit" class="btn btn-outline-success">Comment</button>
         </form>
         <hr>

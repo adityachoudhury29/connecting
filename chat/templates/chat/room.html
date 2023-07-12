@@ -1,13 +1,39 @@
 {% extends 'lprofile/layout.html' %}
 
 {% block body %}
+    <h2 style="text-align: center;">Chatting with {{ other_user.first_name }} {{ other_user.last_name }}:</h2>
     <div id="me" hidden>{{ request.user.username }}</div>
     <div class="chat-message-div">
-    <textarea readonly id="chat-log" style="width: 845px; height: 400px; font-size: 40px;"></textarea><br>
+    <div id="scrollablediv" style="overflow-y: scroll;border-radius: 20px;text-align: left;width: 849px; height: 400px; font-size: 30px; background-color: rgb(25, 25, 25); ">
+    <ul id="chat-log" style="list-style-type: none;color: white;">
+    {% for chat in chats %}
+        {% if request.user.username == chat.sender.username %}
+        <li class="sent">
+            {% if myprof.profimg %}
+            <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ myprof.profimg.url }}" alt="me">
+            {% endif %}
+            <br>
+            <small style="font-size: 12px;color: white;">{{ chat.timestamp }}</small>
+            <p>{{chat.content}}</p>
+        </li>
+        {% else %}
+        <li class="recieved">
+            {% if theirprof.profimg %}
+            <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ theirprof.profimg.url }}" alt="chatter">
+            {% endif %}
+            <br>
+            <small style="font-size: 12px;color: white;">{{ chat.timestamp }}</small>
+            <p>{{chat.content}}</p>
+        </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    </div>
+    <br>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" id="chat-message-input" placeholder="Message" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" id="chat-message-input" placeholder="Message" aria-describedby="basic-addon2" style="background-color: rgb(25, 25, 25); color: white;border-radius: 20px;">
         <div class="input-group-append">
-            <button class="btn btn-outline-primary" id="chat-message-submit">Send</button>
+            <button style="border-radius: 20px;" class="btn btn-primary" id="chat-message-submit">Send</button>
         </div>
     </div>
     {{ room_name|json_script:"room-name" }}
@@ -19,16 +45,33 @@
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
     const chatSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/ws/chat/'
-        + roomName
-        + '/'
+        'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
     );
+
+    window.addEventListener('load', function(){
+        var scrollablediv = document.getElementById('scrollablediv');
+        scrollablediv.scrollTop = scrollablediv.scrollHeight;
+    });
 
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        document.querySelector('#chat-log').value += (data.username+": "+data.message + '\n');
+        let litag = document.createElement('li');
+        let ptag = document.createElement('p');
+        let mess = data.message + '\n';
+        ptag.textContent = mess;
+        console.log(data.username);
+        if (document.getElementById('me').innerHTML == data.username){
+            litag.className = 'sent';
+            litag.appendChild(ptag);
+            document.querySelector('#chat-log').appendChild(litag);
+        }
+        else{
+            litag.className = 'recieved';
+            litag.appendChild(ptag);
+            document.querySelector('#chat-log').appendChild(litag);
+        }
+        var scrollablediv = document.getElementById('scrollablediv');
+        scrollablediv.scrollTop = scrollablediv.scrollHeight;  
     };
 
     chatSocket.onclose = function(e) {

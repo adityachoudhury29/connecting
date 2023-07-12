@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.urls import reverse
@@ -74,10 +74,21 @@ def register(request):
         return render(request, "lprofile/register.html")
     
 def index(request):
-    posts2=posts.objects.all()
-    return render(request,'lprofile/index.html',{
-        'posts1':posts2
-    })
+    posts2=posts.objects.all().order_by('-time')
+    if request.user.is_authenticated:
+        try:
+            myprof=profile1.objects.get(profowner=request.user)
+        except ObjectDoesNotExist:
+            profile1(profowner=request.user).save()
+        myprof=profile1.objects.get(profowner=request.user)
+        return render(request,'lprofile/index.html',{
+            'posts1':posts2,
+            'myprof':myprof
+        })
+    else:
+        return render(request,'lprofile/index.html',{
+            'posts1':posts2,
+        })
 
 def commentgetter(post):
     return comments.objects.get(c_post=post)
@@ -98,32 +109,27 @@ def create(request):
         else:
             newpost=posts(owner=user,desc=desc)
         newpost.save()
-        posts1=posts.objects.all()
-        return render(request,'lprofile/index.html',{
-            'posts1':posts1
-        })
+        return HttpResponseRedirect(reverse('index'))
 
 def like(request,pk):
-    post=get_object_or_404(posts,id=request.POST.get('id'))
-    if request.user in post.dislikes.all():
-        post.dislikes.remove(request.user)
+    post=posts.objects.get(pk=pk)
+    if request.user not in post.likes.all():
+        if request.user in post.dislikes.all():
+            post.dislikes.remove(request.user)
         post.likes.add(request.user)
-    elif request.user in post.likes.all() and request.user not in post.dislikes.all():
+    else:
         post.likes.remove(request.user)
-    elif request.user not in post.likes.all() and request.user not in post.dislikes.all():
-        post.likes.add(request.user)
-    return HttpResponseRedirect(reverse('index'))
+    return JsonResponse({"message":"liked"})
 
 def dislike(request,pk):
-    post=get_object_or_404(posts,id=request.POST.get('id'))
-    if request.user in post.likes.all():
-        post.likes.remove(request.user)
+    post=posts.objects.get(pk=pk)
+    if request.user not in post.dislikes.all():
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
         post.dislikes.add(request.user)
-    elif request.user in post.dislikes.all() and request.user not in post.likes.all():
+    else:
         post.dislikes.remove(request.user)
-    elif request.user not in post.likes.all() and request.user not in post.dislikes.all():
-        post.dislikes.add(request.user)
-    return HttpResponseRedirect(reverse('index'))
+    return JsonResponse({"message":"disliked"})
 
 def profilefunc(request,uname):
     try:
@@ -157,7 +163,9 @@ def foll(request,uname):
             'connections':connections
         })
     except ObjectDoesNotExist:
-        return render(request,'lprofile/noconn.html')
+        return render(request,'lprofile/noconn.html',{
+            'message':'No connections/Followers yet!'
+        })
 
 def deletepost(request,id):
     post=posts.objects.get(pk=id)
@@ -173,6 +181,7 @@ def addc(request):
         'me':me,
         'mef':me.follower.all(),
         'mec':me.connections.all(),
+        'mer':me.requests.all()
     })
 
 def add(request,uname):
@@ -202,7 +211,7 @@ def editprof(request):
     else:
         fn=request.POST["firstname"]
         ln=request.POST["lastname"]
-        role=request.POST["role"]
+        role=request.POST.get("role")
         abt=request.POST["about"]
         pic=(request.FILES['pic'] if 'pic' in request.FILES else False)
         remove_picture = request.POST.get('remove_picture')
@@ -274,20 +283,27 @@ def gotocomments(request,id):
 
 def job(request):
     joblistings=jobs.objects.all()
+    myprof=profile1.objects.get(profowner=request.user)
     return render(request,'lprofile/jobs.html',{
         'joblistings':joblistings,
+        'myprof':myprof
     })
 
 def jobpost(request):
-    if request.method=='GET':
-        return render(request,'lprofile/jobpost.html')
-    elif request.method=='POST':
-        title=request.POST["j_title"]
-        company=request.POST["company"]
-        desc=request.POST["j_desc"]
-        job=jobs(j_provider=request.user,j_title=title,company=company,j_desc=desc)
-        job.save()
-        return HttpResponseRedirect(reverse('job'))
+    if profile1.objects.get(profowner=request.user).role == 'Hirer':
+        if request.method=='GET':
+            return render(request,'lprofile/jobpost.html')
+        elif request.method=='POST':
+            title=request.POST["j_title"]
+            company=request.POST["company"]
+            desc=request.POST["j_desc"]
+            job=jobs(j_provider=request.user,j_title=title,company=company,j_desc=desc)
+            job.save()
+            return HttpResponseRedirect(reverse('job'))
+    else:
+        return render(request,'lprofile/noconn.html',{
+            'message':'You are not a hirer. Change your role to post jobs!'
+        })
 
 def apply(request,id):
     job=jobs.objects.get(pk=id)
@@ -300,10 +316,18 @@ def applicants(request,id):
     applics=job.applicants.all()
     if request.method=='POST':
         return render(request,'lprofile/applicants.html',{
-            'applics':applics
+            'applics':applics,
+            'job':job
         })
     
 def chatapp(request):
     return render(request, 'chat/chatroom.html',{
         'chatters':User.objects.all().exclude(username=request.user.username)
+    })
+
+def myposts(request,uname):
+    user=User.objects.get(username=uname)
+    mypost=posts.objects.filter(owner=user).order_by('-time')
+    return render(request,'lprofile/myposts.html',{
+        'mypost':mypost
     })

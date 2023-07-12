@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from lprofile.models import User
+from lprofile.models import User, profile1
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -16,10 +16,18 @@ def roomin(request, room_name):
     try:
         room_1=room.objects.get(name=room_name)
     except ObjectDoesNotExist:
-        room(name=room_name).save()
-    messages_of_room=messages.objects.filter(roomname=room_1).order_by('-timestamp')
+        room_1=room(name=room_name)
+        room_1.save()
+    chats=[]
+    chats=messages.objects.filter(roomname=room_1)
+    other_user=User.objects.get(username=(room_name.replace('_chatroomfor_','')).replace(request.user.username,''))
+    theirprof=profile1.objects.get(profowner=other_user)
+    myprof=profile1.objects.get(profowner=request.user)
     return render(request,"chat/room.html",{
-        'prevmessages':messages_of_room,
         'room_name': room_name,
-        'username':request.user.username
+        'chats':chats,
+        'username':request.user.username,
+        'other_user':other_user,
+        'theirprof':theirprof,
+        'myprof':myprof
     })

@@ -3,7 +3,7 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-
+        {% if myprof.role == 'Hirer' %}
         <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'jobpost' %}">
@@ -14,6 +14,7 @@
             </li>
         </ul>
         <hr>
+        {% endif %}
         <h2>Jobs:</h2>
         {% for i in joblistings %}
             <div class="card" style=" border: 1px solid #000;">

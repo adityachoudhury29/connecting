@@ -5,18 +5,18 @@
         <form action="{% url 'edit' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <h5>Profile picture:</h5>
-            <input type="file" class="form-control" name="pic">
+            <input style="background-color: rgb(25,25,25);color: white;" type="file" class="form-control" name="pic">
             <label>
                 <input type="checkbox" name="remove_picture"> Remove Picture
             </label>
             <h5>First Name:</h5>
-            <input type="text" class="form-control" name="firstname" value="{{ myprof.profowner.first_name }}"><br>
+            <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="firstname" value="{{ myprof.profowner.first_name }}"><br>
             <h5>Last Name:</h5>
-            <input type="text" class="form-control" name="lastname" value="{{ myprof.profowner.last_name }}"><br>
+            <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="lastname" value="{{ myprof.profowner.last_name }}"><br>
             <h5>About:</h5>
-            <input type="text" class="form-control" name="about" value="{{ myprof.about }}"><br>
+            <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="about" value="{{ myprof.about }}"><br>
             <h5>Role(Hirer/Seeker/Neither):</h5>
-            <select id="role" name="role">
+            <select style="background-color: rgb(25,25,25);color: white;" id="role" name="role">
                 {% if myprof.role == 'Neither' %}
                 <option selected>Neither</option>
                 <option>Hirer</option>

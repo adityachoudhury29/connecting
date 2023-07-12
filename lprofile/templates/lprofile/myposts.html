@@ -1,0 +1,156 @@
+{% extends "lprofile/layout.html" %}
+
+{% block body %}
+{% if user.is_authenticated %}
+{% if mypost %}
+    {% for i in mypost %}
+    <div class="row justify-content-center">
+        <div class="card" style=" border: 1px solid #000; width: 842px;">
+            <a href="{% url 'profile1' uname=i.owner %}" style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.owner.first_name }} {{ i.owner.last_name }}</a>
+            <small style="padding-left: 15px">{{ i.time }}</small><hr>
+            <div class="card-body">
+                <p class="card-text">{{ i.desc }}</p>
+                {% if i.postimg %}
+                <img src="{{ i.postimg.url }}" style="height: 300px; width: 800px;" alt="post_picture">
+                {% endif %}
+                <br>
+                <hr>
+                <div style="text-align: center">
+                    {% if request.user not in i.likes.all %}
+                    {% if request.user not in i.dislikes.all %}
+                    <div style="display: inline-block;vertical-align: middle">
+                        <button type="submit" onclick="like(`{{i.id}}`)" id="{{i.id}}" class="fa fa-thumbs-up" style="border-radius: 20px;width: 40px;height: 40px;background-color: cyan;border: rgb(25,25,25);"></button>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;
+                    <div style="display: inline-block;vertical-align: middle">
+                        <button type="submit" onclick="dislike(`{{i.id}}`)" id="dis{{i.id}}" class="fa fa-thumbs-down" style="border-radius: 20px;width: 40px;height: 40px;background-color: cyan;border: rgb(25,25,25)"></button>
+                    </div>
+                    {% else %}
+                        <div style="display: inline-block;vertical-align: middle">
+                            <button type="submit" onclick="like(`{{i.id}}`)" id="{{i.id}}" class="fa fa-thumbs-up" style="border-radius: 20px;width: 40px;height: 40px;background-color: cyan;border: rgb(25,25,25)"></button>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <div style="display: inline-block;vertical-align: middle">
+                            <button type="submit" onclick="dislike(`{{i.id}}`)" id="dis{{i.id}}" class="fa fa-thumbs-down" style="border-radius: 20px;width: 40px;height: 40px;background-color: blue;border: rgb(25,25,25)"></button>
+                        </div>
+                    {% endif %}
+                    {% else %}
+                    <div style="display: inline-block;vertical-align: middle">
+                        <button type="submit" onclick="like(`{{i.id}}`)" id="{{i.id}}" class="fa fa-thumbs-up" style="border-radius: 20px;width: 40px;height: 40px;background-color: blue;border: rgb(25,25,25)"></button>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;
+                    <div style="display: inline-block;vertical-align: middle">
+                        <button type="submit" onclick="dislike(`{{i.id}}`)" id="dis{{i.id}}" class="fa fa-thumbs-down" style="border-radius: 20px;width: 40px;height: 40px;background-color: cyan;border: rgb(25,25,25)"></button>
+                    </div>
+                    {% endif %}
+                        <p style="text-align: center;" id="likecount{{i.id}}">{{ i.number_of_likes }}</p>
+                </div>
+                <hr>
+                <div>
+                <form action="{% url 'comments' i.id %}" method="POST">
+                    {% csrf_token %}
+                    <h3>Make a Comment:</h3>
+                    <div class="input-group mb-3">
+                        <input type="text" style="background-color: rg(25, 25, 25);color: white;" class="form-control" name="message" placeholder="Comment..." aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit">Comment</button>
+                        </div>
+                    </div>
+                </form>
+                {% if i.post_comms %}
+                <div class="card">
+                    <a href="{% url 'profile1' uname=i.post_comms.comment_owner %}" style="padding-left: 15px;padding-top: 10px;font-size: 25px;">{{ i.post_comms.comment_owner.first_name }} {{ i.post_comms.comment_owner.last_name }}</a>
+                    <small style="padding-left: 15px;">{{ i.post_comms.time }}</small>
+                    <div class="card-body">
+                        <p class="card-text">{{ i.post_comms.message }}</p>
+                    </div>
+                </div>
+                <br>
+                {% endif %}
+                <div style="float: left;">
+                    <a href="{% url 'comments' i.id %}">
+                        <button class="btn btn-info">
+                            Read all comments
+                        </button>
+                    </a>
+                </div>
+                {% if request.user == i.owner %}
+                <div style="float: right;">
+                    <form action="{% url 'delete' i.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" name='delete' class="btn btn-danger">Delete Post</button>
+                    </form>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    {% endfor %}
+{% else %}
+<h5>None yet!</h5>
+{% endif %}
+
+{% else %}
+<h2 style="text-align: center">Login/SignUp first!</h2>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function like(id){
+            if ((document.getElementById(`${id}`).style.backgroundColor == "cyan") && (document.getElementById(`dis${id}`).style.backgroundColor == "cyan")){
+                fetch(`/like/${id}`)
+                .then(response => response.json)
+                .then(result => {
+                    document.getElementById(`${id}`).style.backgroundColor="blue"
+                    document.getElementById(`likecount${id}`).innerHTML++
+                })
+            }
+            else if (document.getElementById(`${id}`).style.backgroundColor == "blue"){
+                fetch(`/like/${id}`)
+                .then(response => response.json)
+                .then(result => {
+                    document.getElementById(`${id}`).style.backgroundColor="cyan"
+                    document.getElementById(`likecount${id}`).innerHTML--
+                })
+            }
+            else{
+                fetch(`/like/${id}`)
+                .then(response => response.json)
+                .then(result => {
+                    document.getElementById(`${id}`).style.backgroundColor="blue"
+                    document.getElementById(`dis${id}`).style.backgroundColor = "cyan"
+                    document.getElementById(`likecount${id}`).innerHTML++
+                })
+            }
+        }
+        function dislike(id){
+            if ((document.getElementById(`${id}`).style.backgroundColor == "cyan") && (document.getElementById(`dis${id}`).style.backgroundColor == "cyan")){
+                fetch(`/dislike/${id}`)
+                .then(response => response.json)
+                .then(result => {
+                    document.getElementById(`dis${id}`).style.backgroundColor="blue"
+                })
+            }
+            else if (document.getElementById(`dis${id}`).style.backgroundColor == "blue"){
+                fetch(`/dislike/${id}`)
+                .then(response => response.json)
+                .then(result => {
+                    document.getElementById(`dis${id}`).style.backgroundColor="cyan"
+                })
+            }
+            else{
+                fetch(`/dislike/${id}`)
+                .then(response => response.json)
+                .then(result => {
+                    document.getElementById(`${id}`).style.backgroundColor="cyan"
+                    document.getElementById(`dis${id}`).style.backgroundColor = "blue"
+                    document.getElementById(`likecount${id}`).innerHTML--
+                })
+            }
+        }
+    </script>
+{% endblock %}

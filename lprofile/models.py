@@ -18,11 +18,14 @@ class posts(models.Model):
         return profile1.objects.get(profowner=self.owner)
     def __str__(self):
         return self.desc
+    def post_comms(self):
+        return comments.objects.filter(c_post=self).first()
 
 class profile1(models.Model):
     profowner=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name="profowner")
     role=models.CharField(max_length=10,default='Neither')
     profimg=models.ImageField(null=True,blank=True,upload_to="media/profimages")
+    cv=models.FileField(null=True,blank=True,upload_to="media/cvfiles")
     about=models.CharField(max_length=300,blank=True)
     follower=models.ManyToManyField(User,related_name="follower",blank=True)
     followers=models.ManyToManyField(User,related_name="followers",blank=True)

@@ -7,11 +7,11 @@
     <form action="{% url 'jobpost' %}" method="POST">
         {% csrf_token %}
         <h5>Job title:</h5>
-        <input type="text" class="form-control" name="j_title" required><br>
+        <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="j_title" required><br>
         <h5>Company:</h5>
-        <input type="text" class="form-control" name="company" required><br>
+        <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="company" required><br>
         <h5>Job description:</h5>
-        <textarea type="text" class="form-control" name="j_desc"></textarea><br>
+        <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="j_desc" required><br>
         <button type="submit" class="btn btn-outline-success">Post</button>
     </form>    
 

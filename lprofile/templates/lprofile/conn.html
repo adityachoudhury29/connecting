@@ -3,6 +3,8 @@
 {% block body %}
     
     {% if user.is_authenticated %}
+    <div class="d-flex justify-content-center">
+    <div>
         <h3>Following: {{ conn.number_of_conns }}</h3>
         {% for i in conns %}
             <ul>
@@ -11,7 +13,9 @@
                 </li>
             </ul>
         {% endfor %}
-        <br>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
         <h3>Followers: {{ conn.number_of_followers }}</h3>
         {% for i in folls %}
             <ul>
@@ -20,7 +24,9 @@
                 </li>
             </ul>
         {% endfor %}
-        <br>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
         <h3>Connections: {{ conn.number_of_connections }}</h3>
         {% for i in connections %}
             <ul>
@@ -29,6 +35,8 @@
                 </li>
             </ul>
         {% endfor %}
+    </div>
+    </div>
     {% else %}
         <h2 style="text-align: center">Login or make and account first!</h2>
     {% endif %}

@@ -11,22 +11,22 @@
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-            <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+            <input style="background-color: rgb(25,25,25);color: white;" class="form-control" autofocus type="text" name="username" placeholder="Username">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" name="first_name" placeholder="First Name">
+            <input style="background-color: rgb(25,25,25);color: white;" class="form-control" type="text" name="first_name" placeholder="First Name">
         </div>
         <div class="form-group">
-            <input class="form-control" type="text" name="last_name" placeholder="Last Name">
+            <input style="background-color: rgb(25,25,25);color: white;" class="form-control" type="text" name="last_name" placeholder="Last Name">
         </div>
         <div class="form-group">
-            <input class="form-control" type="email" name="email" placeholder="Email Address(optional)">
+            <input style="background-color: rgb(25,25,25);color: white;" class="form-control" type="email" name="email" placeholder="Email Address(optional)">
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password" minlength="8">
+            <input style="background-color: rgb(25,25,25);color: white;" class="form-control" type="password" name="password" placeholder="Password" minlength="8">
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
+            <input style="background-color: rgb(25,25,25);color: white;" class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
         </div>
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
