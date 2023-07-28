@@ -24,7 +24,7 @@
             <div class="card-body">
                 <p class="card-text">{{ i.desc }}</p>
                 {% if i.postimg %}
-                <img src="{{ i.postimg.url }}" style="height: 300px; width: 800px;" alt="post_picture">
+                <img src="{{ i.postimg.url }}" style="height: 500px; width: 800px;" alt="post_picture">
                 {% endif %}
                 <br>
                 <hr>
@@ -64,7 +64,7 @@
                     {% csrf_token %}
                     <h3>Make a Comment:</h3>
                     <div class="input-group mb-3">
-                        <input type="text" style="background-color: rg(25, 25, 25);color: white;" class="form-control" name="message" placeholder="Comment..." aria-describedby="basic-addon2">
+                        <input type="text" style="background-color: rgb(15, 15, 15);color: white;" class="form-control" name="message" placeholder="Comment..." aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-success" type="submit">Comment</button>
                         </div>

@@ -13,6 +13,8 @@
                             <li class="sent">
                                 {% if myprof.profimg %}
                                     <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ myprof.profimg.url }}" alt="me">
+                                {% else %}
+                                    <img style="width: 50px;height: 50px;border-radius: 50px;" src="https://www.dpforwhatsapp.in/img/no-dp-images/7.webp" alt="me">                                    
                                 {% endif %}
                                 <br>
                                 <small style="font-size: 12px;color: white;">{{ chat.strtime }}</small><br>
@@ -26,6 +28,8 @@
                             <li class="received">
                                 {% if theirprof.profimg %}
                                     <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ theirprof.profimg.url }}" alt="chatter">
+                                {% else %}
+                                    <img style="width: 50px;height: 50px;border-radius: 50px;" src="https://www.dpforwhatsapp.in/img/no-dp-images/7.webp" alt="me">                                    
                                 {% endif %}
                                 <br>
                                 <small style="font-size: 12px;color: white;">{{ chat.strtime }}</small><br>

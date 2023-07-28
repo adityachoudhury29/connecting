@@ -2,10 +2,8 @@ import json
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 from .models import *
-from django.core.exceptions import ObjectDoesNotExist
 from lprofile.models import profile1
 from django.core.files.base import ContentFile
-import os
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -34,7 +32,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             profile = await database_sync_to_async(profile1.objects.get)(profowner=user)
             imgurl = profile.profimg.url if profile.profimg else ""
         except profile1.DoesNotExist:
-            imgurl = ""
+            imgurl = "https://www.dpforwhatsapp.in/img/no-dp-images/7.webp"
 
         room1 = await database_sync_to_async(room.objects.get)(name=self.room_name)
 
