@@ -1,12 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
 .card{
     background-color: rgb(25, 25, 25);
     border-radius: 20px;
+    font-family: 'Raleway';
 }
 
 body{
     padding: 10px;
     background-color: black;
     color: white;
+    font-family: 'Raleway';
 }
 
 .chat-message-div{
@@ -76,13 +80,31 @@ hr{
     text-align: left;
 }
 
-#profilebutton:hover{
-    background-color: rgb(15,15,15);
+.profilebutton{
+    border: black;color: white;width: 350px; height: 300px;border-radius: 20px;background-color: rgb(25,25,25);
+}
+
+.profilebutton:hover{
+    background-color: rgb(40,40,40);
+}
+
+.createbutton{
+    border: black;color: white;width: 350px; height: 250px;border-radius: 20px;background-color: rgb(25,25,25);
+}
+
+.createbutton:hover{
+    background-color: rgb(40,40,40);
+}
+
+.chatbutton{
+    border: black;border-radius: 20px;background-color: rgb(25,25,25);width:350px; height: 175px
 }
 
 .chatbutton:hover{
     background-color: rgb(40,40,40);
 }
+
+
 
 .sent{
     color: rgb(54, 223, 235);
@@ -92,7 +114,7 @@ hr{
     padding-top: 10px;
 }
 
-.recieved{
+.received{
     color: greenyellow;
     text-align: left;
 }

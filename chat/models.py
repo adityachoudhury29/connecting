@@ -12,6 +12,10 @@ class messages(models.Model):
     sender=models.ForeignKey(User,related_name='sender',on_delete=models.CASCADE,blank=True)
     content=models.TextField()
     timestamp=models.DateTimeField(auto_now_add=True)
+    file=models.FileField(null=True,blank=True,upload_to="media/chatfiles")
 
     def __str__(self):
         return f'{self.sender.username}:{self.timestamp}'
+    
+    def strtime(self):
+        return self.timestamp.strftime("%B %d, %Y, %H:%M")

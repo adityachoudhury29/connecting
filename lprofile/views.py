@@ -138,7 +138,7 @@ def profilefunc(request,uname):
             myprof=profile1.objects.get(profowner=user)
             return render(request,'lprofile/profile1.html',{
                 'myprof':myprof,
-                'mypost':posts.objects.filter(owner=user)
+                'mypost':posts.objects.filter(owner=user),
             })
         except ObjectDoesNotExist:
             myprof=profile1(profowner=user)
@@ -191,7 +191,7 @@ def add(request,uname):
         if user not in profile.follower.all():
             profile.follower.add(user)
             profile1.objects.get(profowner=user).followers.add(request.user)
-        return HttpResponseRedirect(reverse('followings',args=[request.user]))
+        return HttpResponseRedirect(reverse('addc'))
 
 def remove(request,uname):
     user=User.objects.get(username=uname)
@@ -200,7 +200,7 @@ def remove(request,uname):
         if user in profile.follower.all():
             profile.follower.remove(user)
             profile1.objects.get(profowner=user).followers.remove(request.user)
-        return HttpResponseRedirect(reverse('followings',args=[request.user]))
+        return HttpResponseRedirect(reverse('addc'))
     
 def editprof(request):
     myprof=profile1.objects.get(profowner=request.user)
@@ -214,12 +214,19 @@ def editprof(request):
         role=request.POST.get("role")
         abt=request.POST["about"]
         pic=(request.FILES['pic'] if 'pic' in request.FILES else False)
+        cv=(request.FILES['cv'] if 'cv' in request.FILES else False)
         remove_picture = request.POST.get('remove_picture')
+        remove_cv = request.POST.get('remove_cv')
         if remove_picture:
             myprof.profimg=None
         else:
             if pic:
                 myprof.profimg=pic
+        if remove_cv:
+            myprof.cv=None
+        else:
+            if cv:
+                myprof.cv=cv
         myprof.profowner.first_name=fn
         myprof.profowner.last_name=ln
         myprof.role=role
@@ -314,11 +321,10 @@ def apply(request,id):
 def applicants(request,id):
     job=jobs.objects.get(pk=id)
     applics=job.applicants.all()
-    if request.method=='POST':
-        return render(request,'lprofile/applicants.html',{
-            'applics':applics,
-            'job':job
-        })
+    return render(request,'lprofile/applicants.html',{
+        'applics':applics,
+        'job':job
+    })
     
 def chatapp(request):
     return render(request, 'chat/chatroom.html',{

@@ -3,35 +3,33 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-    <div class="d-flex justify-content-center">
-    <div>
-        <h3>Following: {{ conn.number_of_conns }}</h3>
+    <div style="display: table;width: 100%;table-layout: fixed;border-spacing: 10px;text-align: center;">
+    <div style="display: table-cell;">
+        <h2>Following: {{ conn.number_of_conns }}</h2>
         {% for i in conns %}
-            <ul>
+            <ul style="list-style: none;">
                 <li>
-                    <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
+                    <a style="font-size: 20px;" href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
                 </li>
             </ul>
         {% endfor %}
     </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <div>
-        <h3>Followers: {{ conn.number_of_followers }}</h3>
+    <div style="display: table-cell;">
+        <h2>Followers: {{ conn.number_of_followers }}</h2>
         {% for i in folls %}
-            <ul>
+            <ul style="list-style: none;">
                 <li>
-                    <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
+                    <a style="font-size: 20px;" href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
                 </li>
             </ul>
         {% endfor %}
     </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <div>
-        <h3>Connections: {{ conn.number_of_connections }}</h3>
+    <div style="display: table-cell;">
+        <h2>Connections: {{ conn.number_of_connections }}</h2>
         {% for i in connections %}
-            <ul>
+            <ul style="list-style: none;">
                 <li>
-                    <a href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
+                    <a style="font-size: 20px;" href="{% url 'profile1' uname=i.username %}">{{ i.first_name }} {{ i.last_name }}</a>
                 </li>
             </ul>
         {% endfor %}

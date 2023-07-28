@@ -39,10 +39,10 @@
                         {% endif %}
                         &nbsp;&nbsp;&nbsp;
                         <div style="display: inline-block;vertical-align: middle">
-                            <form action="{% url 'applicants' i.id %}" method="POST">
+                            <a href="{% url 'applicants' i.id %}">
                                 {% csrf_token %}
                                 <button type="submit" name="show" class="btn btn-secondary">Show Applicants</button>
-                            </form>
+                            </a>
                         </div>
                         <br>
                     </div>

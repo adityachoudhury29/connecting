@@ -1,42 +1,56 @@
 {% extends 'lprofile/layout.html' %}
 
 {% block body %}
-    <h2 style="text-align: center;">Chatting with {{ other_user.first_name }} {{ other_user.last_name }}:</h2>
+    <div class="container">
+    <h2 style="text-align: center;">Chatting with <a href="{% url 'profile1' uname=other_user.username %}">{{ other_user.first_name }} {{ other_user.last_name }}:</a></h2>
     <div id="me" hidden>{{ request.user.username }}</div>
-    <div class="chat-message-div">
-    <div id="scrollablediv" style="overflow-y: scroll;border-radius: 20px;text-align: left;width: 849px; height: 400px; font-size: 30px; background-color: rgb(25, 25, 25); ">
-    <ul id="chat-log" style="list-style-type: none;color: white;">
-    {% for chat in chats %}
-        {% if request.user.username == chat.sender.username %}
-        <li class="sent">
-            {% if myprof.profimg %}
-            <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ myprof.profimg.url }}" alt="me">
-            {% endif %}
-            <br>
-            <small style="font-size: 12px;color: white;">{{ chat.timestamp }}</small>
-            <p>{{chat.content}}</p>
-        </li>
-        {% else %}
-        <li class="recieved">
-            {% if theirprof.profimg %}
-            <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ theirprof.profimg.url }}" alt="chatter">
-            {% endif %}
-            <br>
-            <small style="font-size: 12px;color: white;">{{ chat.timestamp }}</small>
-            <p>{{chat.content}}</p>
-        </li>
-        {% endif %}
-    {% endfor %}
-    </ul>
-    </div>
-    <br>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" id="chat-message-input" placeholder="Message" aria-describedby="basic-addon2" style="background-color: rgb(25, 25, 25); color: white;border-radius: 20px;">
-        <div class="input-group-append">
-            <button style="border-radius: 20px;" class="btn btn-primary" id="chat-message-submit">Send</button>
+    <div class="row justify-content-center">
+        <div class="chat-message-div" style="justify-content: center; display: flex; width: 1000px;">
+            <div id="scrollablediv" style="overflow-y: scroll;border-radius: 20px;width: 1000px;padding: 20px; height: 500px; font-size: 30px; background-color: rgb(25, 25, 25);">
+                <ul id="chat-log" style="list-style-type: none;color: white;">
+                    {% for chat in chats %}
+                        {% if request.user.username == chat.sender.username %}
+                            <li class="sent">
+                                {% if myprof.profimg %}
+                                    <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ myprof.profimg.url }}" alt="me">
+                                {% endif %}
+                                <br>
+                                <small style="font-size: 12px;color: white;">{{ chat.strtime }}</small><br>
+                                {% if chat.file %}
+                                    <a class="file-link" style="color: blue;" href="{{ chat.file.url }}" download>{{ chat.content }}</a>
+                                {% else %}
+                                    <p>{{ chat.content }}</p>
+                                {% endif %}
+                            </li>
+                        {% else %}
+                            <li class="received">
+                                {% if theirprof.profimg %}
+                                    <img style="width: 50px;height: 50px;border-radius: 50px;" src="{{ theirprof.profimg.url }}" alt="chatter">
+                                {% endif %}
+                                <br>
+                                <small style="font-size: 12px;color: white;">{{ chat.strtime }}</small><br>
+                                {% if chat.file %}
+                                    <a class="file-link" style="color: darkgreen;" href="{{ chat.file.url }}" download>{{ chat.content }}</a>
+                                {% else %}
+                                    <p>{{ chat.content }}</p>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {{ room_name|json_script:"room-name" }}
+        </div>
+        <div class="input-group mb-3" style="align-items: center;padding: 20px;width: 1000px;">
+            <input type="file" name="file" id="file-input" style="display: none;" onchange="uploadFile(event)">
+            <input type="button" class="btn btn-outline-primary" style="border-radius: 20px;" value="Attach" onclick="document.getElementById('file-input').click();">
+            <input type="text" class="form-control" id="chat-message-input" placeholder="Message" aria-describedby="basic-addon2" style="background-color: rgb(25, 25, 25); color: white;border-radius: 20px;">
+            <div class="input-group-append">
+                <button style="border-radius: 20px;" class="btn btn-primary" id="chat-message-submit">Send</button>
+            </div>
+            <span id="file-name-display" style="color: white; margin-left: 10px;"></span>
         </div>
     </div>
-    {{ room_name|json_script:"room-name" }}
     </div>
 {% endblock %}
 
@@ -53,45 +67,121 @@
         scrollablediv.scrollTop = scrollablediv.scrollHeight;
     });
 
-    chatSocket.onmessage = function(e) {
+    let selectedFile = null;
+
+    function uploadFile(event) {
+        const fileInput = event.target;
+        selectedFile = fileInput.files[0];
+        const fileNameDisplay = document.querySelector("#file-name-display");
+        fileNameDisplay.textContent = selectedFile.name;
+    }
+
+    chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        let litag = document.createElement('li');
-        let ptag = document.createElement('p');
-        let mess = data.message + '\n';
-        ptag.textContent = mess;
-        console.log(data.username);
-        if (document.getElementById('me').innerHTML == data.username){
-            litag.className = 'sent';
-            litag.appendChild(ptag);
-            document.querySelector('#chat-log').appendChild(litag);
+        let imgTag = "";
+        if (data.imgurl) {
+            imgTag = `<img style="width: 50px;height: 50px;border-radius: 50px;" src="${data.imgurl}" alt="user">`;
         }
-        else{
-            litag.className = 'recieved';
-            litag.appendChild(ptag);
-            document.querySelector('#chat-log').appendChild(litag);
+
+        // Check if the message is a file message
+        if (data.file_url) {
+            const fileLink = `<a class="file-link" style="color: blue;" href="${data.file_url}" download>${data.message}</a>`;
+            let liTag = document.createElement("li");
+            liTag.innerHTML =
+                imgTag +
+                "<br>" +
+                `<small style="font-size: 12px;color: white;">${data.timestamp}</small><br>` +
+                fileLink;
+            // Add appropriate class for styling based on the sender
+            if (document.getElementById("me").innerHTML === data.username) {
+                liTag.className = "sent";
+            } else {
+                liTag.className = "received";
+            }
+            document.querySelector("#chat-log").appendChild(liTag);
+        } else {
+            // Regular text message handling
+            let messageContent = `<p>${data.message}</p>`;
+            if (data.message.trim() !== "") {
+                let liTag = document.createElement("li");
+                liTag.innerHTML =
+                    imgTag +
+                    "<br>" +
+                    `<small style="font-size: 12px;color: white;">${data.timestamp}</small><br>` +
+                    messageContent;
+
+                // Add appropriate class for styling based on the sender
+                if (document.getElementById("me").innerHTML === data.username) {
+                    liTag.className = "sent";
+                } else {
+                    liTag.className = "received";
+                }
+
+                document.querySelector("#chat-log").appendChild(liTag);
+            }
         }
-        var scrollablediv = document.getElementById('scrollablediv');
-        scrollablediv.scrollTop = scrollablediv.scrollHeight;  
+
+        // Automatically scroll to the bottom of the chat log
+        var scrollablediv = document.getElementById("scrollablediv");
+        scrollablediv.scrollTop = scrollablediv.scrollHeight;
     };
 
-    chatSocket.onclose = function(e) {
-        console.error('Chat socket closed unexpectedly');
+    chatSocket.onclose = function (e) {
+        console.error("Chat socket closed unexpectedly");
     };
 
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function(e) {
-        if (e.key === 'Enter') {  // enter, return
-            document.querySelector('#chat-message-submit').click();
+    document.querySelector("#chat-message-input").focus();
+    document.querySelector("#chat-message-input").onkeyup = function (e) {
+        if (e.key === "Enter") {
+            document.querySelector("#chat-message-submit").click();
         }
     };
 
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        const messageInputDom = document.querySelector('#chat-message-input');
+    document.querySelector("#chat-message-submit").onclick = function (e) {
+        const messageInputDom = document.querySelector("#chat-message-input");
         const message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message,
-        }));
-        messageInputDom.value = '';
+        if (selectedFile) {
+            // If a file is selected, send the file along with the message
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const fileData = e.target.result;
+                const fileName = selectedFile.name;
+                chatSocket.send(
+                    JSON.stringify({
+                        message: message,
+                        file_name: fileName,
+                        file_data: fileData,
+                    })
+                );
+                // Clear the file input and display
+                document.querySelector("#file-input").value = "";
+                document.querySelector("#file-name-display").textContent = "";
+                selectedFile = null;
+            };
+            reader.readAsDataURL(selectedFile);
+        } else {
+            // If no file is selected, send only the message
+            chatSocket.send(JSON.stringify({ message: message }));
+        }
+        messageInputDom.value = "";
     };
+
+    document.addEventListener("click", function (e) {
+        const fileLink = e.target.closest(".file-link");
+        if (fileLink) {
+            const fileUrl = fileLink.getAttribute("href");
+            const fileName = fileLink.textContent;
+
+            const downloadLink = document.createElement("a");
+            downloadLink.href = fileUrl;
+            downloadLink.download = fileName;
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            e.preventDefault();
+        }
+    });
 </script>
 {% endblock %}
