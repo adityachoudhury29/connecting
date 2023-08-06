@@ -228,9 +228,13 @@ def editprof(request):
             if cv:
                 myprof.cv=cv
         myprof.profowner.first_name=fn
+        user=User.objects.get(username=request.user.username)
+        user.first_name=fn
         myprof.profowner.last_name=ln
+        user.last_name=ln
         myprof.role=role
         myprof.about=abt
+        user.save()
         myprof.save()
         return HttpResponseRedirect(reverse('profile1',args=[request.user]))
 
