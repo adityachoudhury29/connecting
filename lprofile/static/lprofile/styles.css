@@ -81,7 +81,30 @@ hr{
 }
 
 .profilebutton{
-    border: black;color: white;width: 350px; height: 300px;border-radius: 20px;background-color: rgb(25,25,25);
+    border: black;background-color: rgb(35,35,35);width: 120px; height: 120px; color: white;margin-top: -16px;cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgb(25,25,25);
+    min-width: 120px;
+    z-index: 2;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: rgb(15,15,15);
+}
+
+#logout:hover{
+    background-color: red;
 }
 
 .profilebutton:hover{
@@ -89,7 +112,7 @@ hr{
 }
 
 .createbutton{
-    border: black;color: white;width: 350px; height: 250px;border-radius: 20px;background-color: rgb(25,25,25);
+    border: black;border-radius: 20px;background-color: rgb(35,35,35);width:100px; height: 100px
 }
 
 .createbutton:hover{
@@ -97,14 +120,12 @@ hr{
 }
 
 .chatbutton{
-    border: black;border-radius: 20px;background-color: rgb(25,25,25);width:350px; height: 175px
+    border: black;border-radius: 20px;background-color: rgb(35,35,35);width:100px; height: 100px
 }
 
 .chatbutton:hover{
     background-color: rgb(40,40,40);
 }
-
-
 
 .sent{
     color: rgb(54, 223, 235);
@@ -117,4 +138,14 @@ hr{
 .received{
     color: greenyellow;
     text-align: left;
+}
+
+.vertical-line {
+    border-left: 1px solid white; /* Adjust color and thickness as needed */
+    height: 100px; /* Adjust height as needed */
+    margin: 0 10px; /* Adjust spacing as needed */
+}
+
+#allmyposts:hover{
+    background-color: rgb(33, 31, 31);
 }

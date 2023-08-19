@@ -3,18 +3,18 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-
+    <div style="position: fixed;width: 1000px;height: 600px;background-color: rgb(40,40,40); border-radius: 20px;padding: 20px;top: 50%;left: 50%;transform: translate(-50%,-50%);margin-top: 30px;">
     <form action="{% url 'jobpost' %}" method="POST">
         {% csrf_token %}
         <h5>Job title:</h5>
-        <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="j_title" required><br>
+        <input autofocus style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="j_title" required><br>
         <h5>Company:</h5>
         <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="company" required><br>
-        <h5>Job description:</h5>
-        <input style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="j_desc" required><br>
+        <h5>Job description and applicant criteria:</h5>
+        <textarea rows="10" style="background-color: rgb(25,25,25);color: white;" type="text" class="form-control" name="j_desc" required></textarea><br>
         <button type="submit" class="btn btn-outline-success">Post</button>
     </form>    
-
+    </div>
     {% else %}
         <h2 style="text-align: center">login first!</h2>
     {% endif %}

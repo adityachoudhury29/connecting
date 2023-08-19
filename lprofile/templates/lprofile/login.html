@@ -2,8 +2,9 @@
 {% extends "lprofile/layout.html" %}
 
 {% block body %}
-
+    <div style="position: fixed;top: 54%;left: 50%;transform: translate(-50%,-50%);background-color: rgb(35,35,35); padding:20px;width: 900px;border-radius: 20px;height: 600px;">
     <h2>Login</h2>
+    <br>
 
     {% if message %}
         <div>{{ message }}</div>
@@ -17,9 +18,9 @@
         <div class="form-group">
             <input style="background-color: rgb(25,25,25);color: white;" class="form-control" type="password" name="password" placeholder="Password">
         </div>
-        <input style="background-color: rgb(25,25,25);color: white;" class="btn btn-primary" type="submit" value="Login">
+        <input class="btn btn-primary" type="submit" value="Login">
     </form>
-
+    <br>
     Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
+    </div>
 {% endblock %}

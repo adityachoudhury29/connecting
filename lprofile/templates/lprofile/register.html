@@ -1,7 +1,7 @@
 {% extends "lprofile/layout.html" %}
 
 {% block body %}
-
+<div style="position: fixed;top: 54%;left: 50%;transform: translate(-50%,-50%);background-color: rgb(35,35,35); padding:20px;width: 900px;border-radius: 20px;height: 600px;">
     <h2>Register</h2>
 
     {% if message %}
@@ -30,7 +30,8 @@
         </div>
         <input class="btn btn-primary" type="submit" value="Register">
     </form>
+    <br>
 
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-
+    </div>
 {% endblock %}

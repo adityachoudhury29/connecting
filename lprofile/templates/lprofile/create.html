@@ -5,19 +5,21 @@
         {% if message %}
             <div>{{ message }}</div>
         {% endif %}
+        <div style="position: fixed;width: 800px;height: 600px;background-color: rgb(40,40,40); border-radius: 20px;padding: 20px;top: 50%;left: 50%;transform: translate(-50%,-50%);margin-top: 30px;">
         <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
                 <h3 for="desc">Create New Post</h3>
                 <textarea rows="12" style="background-color: rgb(25,25,25);color: white;" class="form-control" id="desc" name="desc" rows="4" placeholder="Write here"></textarea>
             </div><br>
-            <h3>Attach Files/pictures</h3>
+            <h3>Pictures</h3>
             <div>
                 <input style="background-color: rgb(25,25,25);" type="file" class="form-control" name="postpic">
             </div>
             <br>
-            <button class="btn btn-primary" type="submit">Post</button>
+            <button class="btn btn-primary" type="submit" style="border-radius: 10px;">Post</button>
         </form>
+        </div>
     {% else %}
         <h2 style="text-align: center">Login or make an account first!</h2>
     {% endif %}

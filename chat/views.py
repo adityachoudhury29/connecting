@@ -13,6 +13,7 @@ def chatroom(request):
 
 @login_required
 def roomin(request, room_name):
+    chatters=User.objects.all().exclude(username=request.user.username)
     try:
         room_1=room.objects.get(name=room_name)
     except ObjectDoesNotExist:
@@ -29,5 +30,6 @@ def roomin(request, room_name):
         'username':request.user.username,
         'other_user':other_user,
         'theirprof':theirprof,
-        'myprof':myprof
+        'myprof':myprof,
+        'chatters':chatters
     })

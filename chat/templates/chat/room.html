@@ -1,7 +1,15 @@
 {% extends 'lprofile/layout.html' %}
 
 {% block body %}
-    <div class="container">
+    <h3>Chat list</h3>
+    <div style="overflow-y: scroll;margin: 5px white;width: 620px;height: 550px;">
+        {% for chatter in chatters %}
+        <button style="width:100%; text-align: left;height: 110px;" id="{{ chatter.username }}" class="btn btn-outline-primary chat-button">
+            {{ chatter.first_name }} {{ chatter.last_name }}
+        </button>
+        {% endfor %}
+    </div>    
+    <div style="position: absolute;top: 55%;left: 69%;transform: translate(-50%,-50%)">
     <h2 style="text-align: center;">Chatting with <a href="{% url 'profile1' uname=other_user.username %}">{{ other_user.first_name }} {{ other_user.last_name }}:</a></h2>
     <div id="me" hidden>{{ request.user.username }}</div>
     <div class="row justify-content-center">
@@ -60,6 +68,22 @@
 
 {% block script %}
 <script>
+    const chatButtons = document.querySelectorAll(".chat-button");
+    chatButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            let roomName = button.id + '_chatroomfor_' + document.querySelector('#me').innerHTML;
+            if (button.id>document.querySelector('#me').innerHTML){
+                roomName = button.id + '_chatroomfor_' + document.querySelector('#me').innerHTML;
+            }
+            else{
+                roomName = document.querySelector('#me').innerHTML+'_chatroomfor_'+button.id;
+            }
+            if (! button.id==''){
+                window.location.pathname = '/chat/' + roomName + '/';
+            }
+        });
+    });
+
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
     const chatSocket = new WebSocket(

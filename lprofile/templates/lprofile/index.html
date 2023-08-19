@@ -3,140 +3,21 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-    <div style="float: left;padding-left: 20px;">
-    <a href="{% url 'profile1' uname=request.user %}">
-        <button class="profilebutton">
-            {% if myprof.profimg %}
-            <img style="width: 100px; height: 100px;border-radius: 100px;" src="{{ myprof.profimg.url }}" alt="profpic">
-            {% else %}
-            <img src="https://www.dpforwhatsapp.in/img/no-dp-images/7.webp" style="height: 100px; width: 100px; border-radius: 100px;" alt="profpic"> 
-            {% endif %}
-            <br>
-            <strong style="font-size: 30px;">My Profile</strong>
-        </button>
-    </a>
-    <br><br>
-    <a href="{% url 'create' %}">
-        <button class="createbutton">
-            <svg fill="#41BCDE" width="150px" height="150px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 0c-8.836 0-16 7.163-16 16s7.163 16 16 16c8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 30.032c-7.72 0-14-6.312-14-14.032s6.28-14 14-14 14 6.28 14 14-6.28 14.032-14 14.032zM23 15h-6v-6c0-0.552-0.448-1-1-1s-1 0.448-1 1v6h-6c-0.552 0-1 0.448-1 1s0.448 1 1 1h6v6c0 0.552 0.448 1 1 1s1-0.448 1-1v-6h6c0.552 0 1-0.448 1-1s-0.448-1-1-1z"></path>
-            </svg>
-            <br>
-            <strong style="font-size: 30px;">Post</strong>
-        </button>
-    </a>
+    <br>
+    <div style="position: relative;top: 40%;padding-top: 210px;">
+    <div style="position: absolute;top: 35%;left: 50%;transform: translate(-50%,-50%);background-color: rgb(35,35,35); padding:20px;width: 900px;border-radius: 20px;width: 842px;height: 200px;">
+        <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <h3 for="desc">Start a Post</h3>
+                <input style="border-radius: 20px;background-color: rgb(25,25,25);color: white;" class="form-control" id="desc" name="desc" placeholder="Write here">
+            </div><br>
+            <div style="padding-right: 5px;">
+                <input style="border-radius: 20px;float: left;width:218px;background-color: rgb(25,25,25);" type="file" class="form-control" name="postpic">
+                <button style="border-radius: 10px;float: right;" class="btn btn-primary" type="submit">Post</button>
+            </div>
+        </form>
     </div>
-    <div style="float: right; padding-right: 20px;">
-    <a href="{% url 'chat' %}">
-        <button class="chatbutton">
-            <svg width="90px" height="90px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="Communication / Chat">
-                <path id="Vector" d="M5.59961 19.9203L7.12357 18.7012L7.13478 18.6926C7.45249 18.4384 7.61281 18.3101 7.79168 18.2188C7.95216 18.1368 8.12328 18.0771 8.2998 18.0408C8.49877 18 8.70603 18 9.12207 18H17.8031C18.921 18 19.4806 18 19.908 17.7822C20.2843 17.5905 20.5905 17.2842 20.7822 16.9079C21 16.4805 21 15.9215 21 14.8036V7.19691C21 6.07899 21 5.5192 20.7822 5.0918C20.5905 4.71547 20.2837 4.40973 19.9074 4.21799C19.4796 4 18.9203 4 17.8002 4H6.2002C5.08009 4 4.51962 4 4.0918 4.21799C3.71547 4.40973 3.40973 4.71547 3.21799 5.0918C3 5.51962 3 6.08009 3 7.2002V18.6712C3 19.7369 3 20.2696 3.21846 20.5433C3.40845 20.7813 3.69644 20.9198 4.00098 20.9195C4.35115 20.9191 4.76744 20.5861 5.59961 19.9203Z" stroke="#41BCDE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </g>
-            </svg>
-            <br>
-            <strong style="font-size: 30px;color: white;">Chat</strong>
-        </button>
-    </a>
-    <br><br>
-    <a href="{% url 'addc' %}">
-        <button class="chatbutton">
-            <svg 
-            viewBox="0 0 600 600"
-            version="1.1"
-            id="svg9724"
-            sodipodi:docname="people.svg"
-            inkscape:version="1.2.2 (1:1.2.2+202212051550+b0a8486541)"
-            width="80px"
-            height="80px"
-            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:svg="http://www.w3.org/2000/svg">
-            <defs
-                id="defs9728" />
-            <sodipodi:namedview
-                id="namedview9726"
-                pagecolor="#ffffff"
-                bordercolor="#666666"
-                borderopacity="1.0"
-                inkscape:showpageshadow="2"
-                inkscape:pageopacity="0.0"
-                inkscape:pagecheckerboard="0"
-                inkscape:deskcolor="#d1d1d1"
-                showgrid="true"
-                inkscape:zoom="0.84118632"
-                inkscape:cx="319.19207"
-                inkscape:cy="427.37262"
-                inkscape:window-width="1920"
-                inkscape:window-height="1009"
-                inkscape:window-x="0"
-                inkscape:window-y="1080"
-                inkscape:window-maximized="1"
-                inkscape:current-layer="g10449"
-                showguides="true">
-                <inkscape:grid
-                type="xygrid"
-                id="grid9972"
-                originx="0"
-                originy="0" />
-                <sodipodi:guide
-                position="-260,300"
-                orientation="0,-1"
-                id="guide383"
-                inkscape:locked="false" />
-                <sodipodi:guide
-                position="300,520"
-                orientation="1,0"
-                id="guide385"
-                inkscape:locked="false" />
-                <sodipodi:guide
-                position="240,520"
-                orientation="0,-1"
-                id="guide939"
-                inkscape:locked="false" />
-                <sodipodi:guide
-                position="220,80"
-                orientation="0,-1"
-                id="guide941"
-                inkscape:locked="false" />
-            </sodipodi:namedview>
-            <g
-                id="g10449"
-                transform="matrix(0.95173205,0,0,0.95115787,13.901174,12.168794)"
-                style="stroke-width:1.05103">
-                <g
-                id="path10026"
-                inkscape:transform-center-x="-0.59233046"
-                inkscape:transform-center-y="-20.347403"
-                transform="matrix(1.3807551,0,0,1.2700888,273.60014,263.99768)" />
-                <g
-                id="g11314"
-                transform="matrix(1.5092301,0,0,1.3955555,36.774048,-9.4503933)"
-                style="stroke-width:50.6951" />
-                <path
-                style="color:#000000;fill:#41bcde;stroke-width:1.05103;stroke-linecap:round;stroke-linejoin:round;stroke:none;paint-order:stroke fill markers"
-                d="m 248.07279,-12.793664 c -72.13241,0 -131.33949,59.250935 -131.33949,131.392074 0,38.92115 17.25502,74.07152 44.45432,98.20884 C 58.500207,254.84854 -14.606185,358.21398 -14.606185,477.846 a 35.037921,35.037921 0 0 0 35.034809,35.03543 H 188.95771 c 6.88866,-25.46243 17.91968,-49.15043 32.45932,-70.0688 H 58.235927 C 73.730605,344.39181 153.38526,271.2598 248.07279,271.2598 c 13.12286,0 25.94065,1.45153 38.35524,4.13353 4.26325,-42.80875 34.59589,-78.30933 74.73011,-90.32371 11.57931,-19.5408 18.25414,-42.27592 18.25414,-66.47121 0,-72.141139 -59.20709,-131.392074 -131.33949,-131.392074 z m 0,70.068794 c 34.24293,0 61.26987,27.028459 61.26987,61.32328 0,34.29482 -27.02694,61.3274 -61.26987,61.3274 -34.24293,0 -61.27192,-27.03258 -61.27192,-61.3274 0,-34.294821 27.02899,-61.32328 61.27192,-61.32328 z"
-                id="path295" />
-                <path
-                id="path295-3"
-                style="color:#000000;fill:#41bcde;stroke-width:1.05103;stroke-linecap:round;stroke-linejoin:round;stroke:none;paint-order:stroke fill markers"
-                d="m 405.68024,197.47637 c -57.70598,0 -105.07159,47.40151 -105.07159,105.11449 0,31.13694 13.80343,59.25664 35.56289,78.56652 -82.15001,30.43306 -140.63449,113.12556 -140.63449,208.83127 a 28.030337,28.030337 0 0 0 28.0273,28.0278 h 182.11589 182.11452 a 28.030337,28.030337 0 0 0 28.0286,-28.0278 c 0,-95.70539 -58.4835,-178.39795 -140.63307,-208.83127 21.75947,-19.30988 35.56153,-47.42958 35.56153,-78.56652 0,-57.71298 -47.3656,-105.11449 -105.07158,-105.11449 z m 0,56.05559 c 27.39437,0 49.01562,21.62301 49.01562,49.0589 0,27.43588 -21.62125,49.06164 -49.01562,49.06164 -27.39437,0 -49.017,-21.62576 -49.017,-49.06164 0,-27.43589 21.62263,-49.0589 49.017,-49.0589 z m 0,171.18664 c 75.7501,0 139.47372,58.50552 151.86952,137.24226 H 405.68024 253.81075 C 266.2065,483.22412 329.93014,424.7186 405.68024,424.7186 Z" />
-            </g>
-            </svg>
-            <br>
-            <strong style="font-size: 30px;color: white;">People</strong>
-        </button>
-    </a><br><br>
-    <a href="{% url 'job' %}">
-        <button class="chatbutton">
-            <svg width="90px" height="90px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 7H5C3.89543 7 3 7.89543 3 9V18C3 19.1046 3.89543 20 5 20H19C20.1046 20 21 19.1046 21 18V9C21 7.89543 20.1046 7 19 7H15M9 7V5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7M9 7H15" stroke="#41BCDE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <br>
-            <strong style="font-size: 30px;color: white;">Career</strong>
-        </button>
-    </a>
     </div>
     {% for i in posts1 %}
         <div class="row justify-content-center">
@@ -229,7 +110,6 @@
         <br>
     {% endfor %}
     {% else %}
-        <h1 style="text-align: center;font-size: 70px;">Welcome!</h1>
     {% endif %}
     
 {% endblock%}

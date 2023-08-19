@@ -1,2 +1,4 @@
-venv/
+myenv/
 media/
+docker-compose.yml
+.env

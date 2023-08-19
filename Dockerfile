@@ -1,4 +1,4 @@
-# Use an official Python runtime as a parent image
+# Use an official Python runtime as the base image
 FROM python:3.9
 
 # Set environment variables
@@ -8,15 +8,22 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies
+# Install system dependencies
+RUN apt-get update && apt-get install -y postgresql-client
+
+# Install Python dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app/
+RUN pip install python-dotenv
+RUN pip install channels-redis
+
+
+# Copy the project files into the container
 COPY . /app/
 
-# Expose the Django development server port
+# Expose the port the app runs on
 EXPOSE 8000
 
-# Define the command to run your application
+# Run the application
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -95,7 +95,9 @@ def commentgetter(post):
 
 def create(request):
     if request.method=='GET':
-        return render(request,'lprofile/create.html')
+        return render(request,'lprofile/create.html',{
+            'myprof':profile1.objects.get(profowner=request.user)
+        })
     else:
         desc=request.POST["desc"]
         img=request.FILES.get("postpic",False)
@@ -157,10 +159,12 @@ def foll(request,uname):
         folls=conn.followers.all()
         connections=conn.connections.all()
         return render(request,'lprofile/conn.html',{
+            'myprof':profile1.objects.get(profowner=request.user),
             'conns':conns,
             'conn':conn,
             'folls':folls,
-            'connections':connections
+            'connections':connections,
+            'userprof':user
         })
     except ObjectDoesNotExist:
         return render(request,'lprofile/noconn.html',{
@@ -178,7 +182,7 @@ def addc(request):
     profiles=profile1.objects.all().exclude(profowner=request.user)
     return render(request,'lprofile/addc.html',{
         'users':profiles,
-        'me':me,
+        'myprof':me,
         'mef':me.follower.all(),
         'mec':me.connections.all(),
         'mer':me.requests.all()
@@ -303,7 +307,9 @@ def job(request):
 def jobpost(request):
     if profile1.objects.get(profowner=request.user).role == 'Hirer':
         if request.method=='GET':
-            return render(request,'lprofile/jobpost.html')
+            return render(request,'lprofile/jobpost.html',{
+                'myprof':profile1.objects.get(profowner=request.user)
+            })
         elif request.method=='POST':
             title=request.POST["j_title"]
             company=request.POST["company"]
@@ -327,17 +333,21 @@ def applicants(request,id):
     applics=job.applicants.all()
     return render(request,'lprofile/applicants.html',{
         'applics':applics,
-        'job':job
+        'job':job,
+        'myprof':profile1.objects.get(profowner=request.user)
     })
     
 def chatapp(request):
     return render(request, 'chat/chatroom.html',{
-        'chatters':User.objects.all().exclude(username=request.user.username)
+        'chatters':User.objects.all().exclude(username=request.user.username),
+        'myprof':profile1.objects.get(profowner=request.user)
     })
 
 def myposts(request,uname):
     user=User.objects.get(username=uname)
     mypost=posts.objects.filter(owner=user).order_by('-time')
     return render(request,'lprofile/myposts.html',{
-        'mypost':mypost
+        'mypost':mypost,
+        'myprof':profile1.objects.get(profowner=request.user),
+        'userprof':User.objects.get(username=uname)
     })

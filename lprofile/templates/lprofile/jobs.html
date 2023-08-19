@@ -38,12 +38,14 @@
                         {% endif %}
                         {% endif %}
                         &nbsp;&nbsp;&nbsp;
+                        {% if request.user.username == i.j_provider.username %}
                         <div style="display: inline-block;vertical-align: middle">
                             <a href="{% url 'applicants' i.id %}">
                                 {% csrf_token %}
                                 <button type="submit" name="show" class="btn btn-secondary">Show Applicants</button>
                             </a>
                         </div>
+                        {% endif %}
                         <br>
                     </div>
                 </div>

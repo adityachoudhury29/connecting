@@ -5,7 +5,8 @@
 {% block body %}
     <div hidden id="hidden">{{ request.user.username }}</div>
     {% for chatter in chatters %}
-    <button style="width:1740px; text-align: left;height: 100px;" id="{{ chatter.username }}" class="btn btn-outline-primary">{{ chatter.first_name }} {{ chatter.last_name }}</button>
+    <button style="width:100%; text-align: left;height: 100px;" id="{{ chatter.username }}" class="btn btn-outline-primary">{{ chatter.first_name }} {{ chatter.last_name }}</button>
+    <br>
     {% endfor %}
 {% endblock %}
 

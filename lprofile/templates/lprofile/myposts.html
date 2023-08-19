@@ -3,6 +3,7 @@
 {% block body %}
 {% if user.is_authenticated %}
 {% if mypost %}
+    <h3 style="text-align: center">{{ userprof.first_name }}'s posts</h3>
     {% for i in mypost %}
     <div class="row justify-content-center">
         <div class="card" style=" border: 1px solid #000; width: 842px;">
