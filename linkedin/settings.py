@@ -94,15 +94,9 @@ ASGI_APPLICATION = 'linkedin.asgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'linkedin_clone_o8ta',
-        'USER': 'linkedin_clone_o8ta_user',
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('RENDER_POSTGRES_HOST', 'localhost'),
-        'PORT': '5432',  # Default PostgreSQL port
-    }
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
+
 
 
 # Password validation
