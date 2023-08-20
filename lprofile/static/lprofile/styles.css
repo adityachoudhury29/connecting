@@ -90,7 +90,16 @@ hr{
     background-color: rgb(25,25,25);
     min-width: 120px;
     z-index: 2;
+    box-shadow: 10px rgb(40, 40, 40);
 }
+
+.vl {
+    border-left: 1px solid white;
+    height: 700px;
+    float: right;
+    margin-top: -550px;
+    margin-left: 70px;
+  }
 
 .dropdown-content a {
     color: black;

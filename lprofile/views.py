@@ -74,7 +74,7 @@ def register(request):
         return render(request, "lprofile/register.html")
     
 def index(request):
-    posts2=posts.objects.all().order_by('-time')
+    posts2=reversed(posts.objects.all())
     if request.user.is_authenticated:
         try:
             myprof=profile1.objects.get(profowner=request.user)

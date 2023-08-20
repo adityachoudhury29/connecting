@@ -1,6 +1,7 @@
 {% extends 'lprofile/layout.html' %}
 
 {% block body %}
+    <div style="width:650px ;">
     <h3>Chat list</h3>
     <div style="overflow-y: scroll;margin: 5px white;width: 620px;height: 550px;">
         {% for chatter in chatters %}
@@ -8,8 +9,11 @@
             {{ chatter.first_name }} {{ chatter.last_name }}
         </button>
         {% endfor %}
-    </div>    
-    <div style="position: absolute;top: 55%;left: 69%;transform: translate(-50%,-50%)">
+    </div>
+    <div class="vl"></div>
+    </div>
+    <div style="position: relative;margin-top: -220px;">  
+    <div style="position: absolute;top: 40%;left: 69%;transform: translate(-50%,-50%)">
     <h2 style="text-align: center;">Chatting with <a href="{% url 'profile1' uname=other_user.username %}">{{ other_user.first_name }} {{ other_user.last_name }}:</a></h2>
     <div id="me" hidden>{{ request.user.username }}</div>
     <div class="row justify-content-center">
@@ -64,6 +68,7 @@
         </div>
     </div>
     </div>
+    </div>
 {% endblock %}
 
 {% block script %}
@@ -110,7 +115,9 @@
         if (data.imgurl) {
             imgTag = `<img style="width: 50px;height: 50px;border-radius: 50px;" src="${data.imgurl}" alt="user">`;
         }
-
+        else{
+            imgTag = `<img style="width: 50px;height: 50px;border-radius: 50px;" src="https://www.dpforwhatsapp.in/img/no-dp-images/7.webp" alt="user">`;
+        }
         // Check if the message is a file message
         if (data.file_url) {
             const fileLink = `<a class="file-link" style="color: blue;" href="${data.file_url}" download>${data.message}</a>`;

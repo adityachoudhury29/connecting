@@ -96,10 +96,12 @@
     {% endfor %}
     </ul>
     </div>
-    <div class="child">
-    {% if mer %}
+    <div id="sep" style="border-left: 1px solid white;  
+    float: right;
+    margin-left: 70px;padding-right: 30px;"></div>
+    <div class="child" style="padding-left: 10px;">
     <h2>Requests:</h2>
-    {% endif %}
+    {% if mer %}
     <ul style="list-style: none;">
     {% for i in users %}
         {% if i.profowner in mer %}
@@ -124,7 +126,16 @@
             </li>
         {% endif %}
     {% endfor %}
+    {% else %}
+    <h3>None yet!</h3>
+    {% endif %}
     </ul>
     </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.getElementById("sep").style.height=window.innerHeight
+    </script>
 {% endblock %}

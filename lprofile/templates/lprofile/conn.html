@@ -3,7 +3,7 @@
 {% block body %}
     
     {% if user.is_authenticated %}
-    <h2 style="text-align: center;color: rgb(0, 216, 216);">{{ userprof.first_name }}'s Network</h2>
+    <h2 style="text-align: center;color: rgb(0, 216, 216);">{{ userprof.first_name }}'s Network</h2><br>
     <div style="display: table;width: 100%;table-layout: fixed;border-spacing: 10px;text-align: center;">
     <div style="display: table-cell;">
         <h2>Following: {{ conn.number_of_conns }}</h2>

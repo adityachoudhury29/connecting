@@ -5,7 +5,8 @@
         {% if message %}
             <div>{{ message }}</div>
         {% endif %}
-        <div style="position: fixed;width: 800px;height: 600px;background-color: rgb(40,40,40); border-radius: 20px;padding: 20px;top: 50%;left: 50%;transform: translate(-50%,-50%);margin-top: 30px;">
+        <div style="position: relative;padding-top: 600px;">
+        <div style="position: absolute;width: 800px;height: 600px;background-color: rgb(40,40,40); border-radius: 20px;padding: 20px;top: 50%;left: 50%;transform: translate(-50%,-50%);margin-top: 30px;">
         <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div>
@@ -19,6 +20,7 @@
             <br>
             <button class="btn btn-primary" type="submit" style="border-radius: 10px;">Post</button>
         </form>
+        </div>
         </div>
     {% else %}
         <h2 style="text-align: center">Login or make an account first!</h2>

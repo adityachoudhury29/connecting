@@ -5,7 +5,7 @@
     {% if user.is_authenticated %}
     <br>
     <div style="position: relative;top: 40%;padding-top: 210px;">
-    <div style="position: absolute;top: 35%;left: 50%;transform: translate(-50%,-50%);background-color: rgb(35,35,35); padding:20px;width: 900px;border-radius: 20px;width: 842px;height: 200px;">
+    <div style="position: absolute;top: 35%;left: 50%;transform: translate(-50%,-50%);background-color: rgb(35,35,35); padding:20px;width: 900px;border-radius: 50px;width: 842px;height: 200px;">
         <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div>

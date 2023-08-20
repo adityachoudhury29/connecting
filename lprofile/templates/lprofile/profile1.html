@@ -3,6 +3,7 @@
 {% block body %}
     
     {% if user.is_authenticated %}
+    <div style="position: relative;margin-top: 300px;">
     <div style="position: absolute;width: 98%;background-color: rgb(40,40,40); border-radius: 20px;padding: 20px;top: 50%;left: 50%;transform: translate(-50%,-50%);margin-top: 50px;">
         <div id="me" hidden>{{ request.user.username }}</div>
         <div>
@@ -74,6 +75,7 @@
         {% else %}
             <h5>None yet!</h5>
         {% endif %}
+    </div>
     </div>
     <br>
     {% else %}
