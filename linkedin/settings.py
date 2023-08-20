@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-4c^r+q)bki2_%*6$u)gd0&hsoncglmh^-x9ph1we@%!9etkqr0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["connecting-kggc.onrender.com","192.168.30.73","192.168.203.73","localhost","127.0.0.1"]
+ALLOWED_HOSTS = ["https://connecting-kggc.onrender.com","192.168.30.73","192.168.203.73","localhost","127.0.0.1"]
 
 
 # Application definition
