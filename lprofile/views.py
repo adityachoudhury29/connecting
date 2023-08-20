@@ -86,9 +86,7 @@ def index(request):
             'myprof':myprof
         })
     else:
-        return render(request,'lprofile/index.html',{
-            'posts1':posts2,
-        })
+        return render(request,'lprofile/index.html')
 
 def commentgetter(post):
     return comments.objects.get(c_post=post)
