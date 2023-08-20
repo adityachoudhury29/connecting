@@ -98,7 +98,7 @@ DATABASES = {
         'NAME': 'linkedin_clone',
         'USER': 'aditya',
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': 'db',
+        'HOST': os.getenv('RENDER_POSTGRES_HOST', 'localhost'),
         'PORT': '5432',  # Default PostgreSQL port
     }
 }
