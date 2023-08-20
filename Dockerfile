@@ -25,5 +25,7 @@ COPY . /app/
 # Expose the port the app runs on
 EXPOSE 8000
 
+RUN python manage.py migrate
+
 # Run the application
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

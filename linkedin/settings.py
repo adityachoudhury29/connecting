@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -29,9 +30,9 @@ SECRET_KEY = 'django-insecure-4c^r+q)bki2_%*6$u)gd0&hsoncglmh^-x9ph1we@%!9etkqr0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["connecting-kggc.onrender.com","192.168.30.73","192.168.203.73","localhost","127.0.0.1"]
+ALLOWED_HOSTS = ["connecting-t9nd.onrender.com","192.168.30.73","192.168.203.73","localhost","127.0.0.1"]
 
-CSRF_TRUSTED_ORIGINS=['https://connecting-kggc.onrender.com']
+CSRF_TRUSTED_ORIGINS=['https://connecting-t9nd.onrender.com']
 # Application definition
 
 INSTALLED_APPS = [
@@ -95,8 +96,8 @@ ASGI_APPLICATION = 'linkedin.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'linkedin_clone_f5h3',
-        'USER': 'aditya',
+        'NAME': 'linkedin_clone_o8ta',
+        'USER': 'linkedin_clone_o8ta_user',
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('RENDER_POSTGRES_HOST', 'localhost'),
         'PORT': '5432',  # Default PostgreSQL port
