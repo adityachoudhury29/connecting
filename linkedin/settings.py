@@ -95,7 +95,7 @@ ASGI_APPLICATION = 'linkedin.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'linkedin_clone',
+        'NAME': 'linkedin_clone_f5h3',
         'USER': 'aditya',
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('RENDER_POSTGRES_HOST', 'localhost'),
