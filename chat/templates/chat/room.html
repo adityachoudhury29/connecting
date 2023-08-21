@@ -92,7 +92,7 @@
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
     const chatSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+        'wss://connecting-t9nd.onrender.com/ws/chat/'+ roomName + '/'
     );
 
     window.addEventListener('load', function(){
