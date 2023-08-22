@@ -13,9 +13,9 @@
     <body style="margin: 10px;padding: 10px;">
         <!-- <img src="https://cdn-icons-png.flaticon.com/512/91/91935.png" style="height: 200px;width: 200px;background-color: white;" alt="LinkedIn"> -->
         {% if user.is_authenticated %}
-        <div style="background-color: rgb(35,35,35);height: 120px;margin: -20px;">
+        <div style="background-color: rgb(35,35,35);height: 120px;margin: -20px;position: fixed;z-index: 3;width: 100%;">
         {% else %}
-        <div style="background-color: rgb(35,35,35);height: 120px;margin: -20px;">
+        <div style="background-color: rgb(35,35,35);height: 120px;margin: -20px;position: fixed;z-index: 3;width: 100%;">
         {% endif %}
         <div style="display: flex;">
         <div style="flex: 1;padding-left: 140px;">
@@ -192,6 +192,7 @@
         </div>
         <br><br>
         {% if user.is_authenticated %}
+        <br><br><br>
         {% else %}
         <div style="position: fixed;top: 54%;left: 50%;transform: translate(-50%,-50%);background-color: rgb(35,35,35); padding:20px;width: 900px;border-radius: 20px;height: 600px;">
             <div style="background-color: rgb(35,35,35);">
